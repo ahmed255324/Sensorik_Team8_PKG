@@ -5,7 +5,7 @@ import cv2
 video_capture1 = cv2.VideoCapture(0)
 video_capture2 = cv2.VideoCapture(1)
 video_capture3 = cv2.VideoCapture(2)
-#video_capture = cv2.VideoCapture('video/ros.mp4')
+#video_capture = cv2.VideoCapture('video/ros.mp')
 
 while(True):
 	ret1, frame1 = video_capture1.read()
