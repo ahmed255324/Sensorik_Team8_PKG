@@ -20,8 +20,8 @@ def TF(rvecs, tvecs):
 	tf[3][3] = 1
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)
 	return tf
-video_capture1 = cv2.VideoCapture(2)
-video_capture2 = cv2.VideoCapture(4)
+video_capture1 = cv2.VideoCapture(0)
+video_capture2 = cv2.VideoCapture(2)
 #video_capture3 = cv2.VideoCapture(4)
 
 a = 174
@@ -49,7 +49,7 @@ tf_1 = np.zeros((4,4))
 tf_2 = np.zeros((4,4))
 tf_3 = np.zeros((4,4))
 
-while(True): #not rospy.is_shutdown():
+while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
 	ret1, frame1 = video_capture1.read()
 	ret2, frame2 = video_capture2.read()
@@ -87,12 +87,7 @@ while(True): #not rospy.is_shutdown():
 	pose_o.position = tvecs
 
 	talker(pose_o)
-	cv2.imshow("Frame1",frame1)
-	cv2.imshow("Frame2",frame2)
-	if cv2.waitKey(1) & 0xFF == ord('q'):
-		break
 
 video_capture1.release()
 video_capture2.release()
 #video_capture3.release()
-cv2.destroyAllWindows()
