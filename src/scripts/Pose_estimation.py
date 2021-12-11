@@ -10,7 +10,8 @@ from geometry_msgs.msg import Pose
 def talker(pose_opj):
 	pub = rospy.Publisher('Farzeug_Pose', Pose, queue_size=10)
 	rospy.init_node('Pose_estimation', anonymous=True)
-	pub.publish(pose_opj)
+	#pub.publish(pose_opj)
+	rospy.loginfo(pose_opj)
 
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
