@@ -19,8 +19,8 @@ def TF(rvecs, tvecs):
 	tf[3][3] = 1
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)
 	return tf
-video_capture1 = cv2.VideoCapture(0)
-video_capture2 = cv2.VideoCapture(2)
+video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
 #video_capture3 = cv2.VideoCapture(4)
 
 a = 174
