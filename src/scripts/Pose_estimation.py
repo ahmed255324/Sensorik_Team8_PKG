@@ -4,14 +4,14 @@ import cv2
 from pyzbar.pyzbar import decode
 import numpy as np
 import rospy
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Twist
 
 
 def talker(pose_opj):
-	pub = rospy.Publisher('Farzeug_Pose', Pose, queue_size=10)
+	pub = rospy.Publisher('Farzeug_Pose', Twist, queue_size=10)
 	rospy.init_node('Pose_estimation', anonymous=True)
 	#pub.publish(pose_opj)
-	rospy.loginfo(pose_opj)
+	print(pose_opj)
 
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
@@ -83,10 +83,10 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
 	rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
 	tvecs = tf[0:3, 3:4]
-	pose_o = Pose
-	pose_o.position.x = tvecs[0]
-	pose_o.position.y = tvecs[1]
-	pose_o.position.z = tvecs[2]
+	pose_o = Twist
+	pose_o.linear.x = tvecs[0]
+	pose_o.linear.y = tvecs[1]
+	pose_o.linear.z = tvecs[2]
 
 	talker(pose_o)
 
