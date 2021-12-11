@@ -84,11 +84,8 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 	rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
 	tvecs = tf[0:3, 3:4]
 	pose_o = Twist
-	pose_o.linear.x = tvecs[0]
-	pose_o.linear.y = tvecs[1]
-	pose_o.linear.z = tvecs[2]
-
-	talker(pose_o)
+	print(tvecs)	
+	#talker(pose_o)
 
 video_capture1.release()
 video_capture2.release()
