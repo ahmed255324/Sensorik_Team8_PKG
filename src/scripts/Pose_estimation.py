@@ -4,17 +4,20 @@ import cv2
 from pyzbar.pyzbar import decode
 import numpy as np
 import rospy
-from geometry_msgs.msg import Twist
+from gazebo_msgs.msg import ModelState
+from scipy.spatial.transform import Rotation
 
+qrcode_tf1 =[[0, 0, 1, 0],[-1, 0, 0, 3.57],[0, -1, 0, 1.38],[0, 0, 0, 1]]
 
-def talker(pose_opj):
-	pub = rospy.Publisher('Farzeug_Pose', Twist, queue_size=10)
-	rospy.init_node('Pose_estimation', anonymous=True)
-	pub.publish(pose_opj)
+rospy.init_node('Pose_estimation', anonymous=True)
+pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
+
+pose_o = ModelState()
+pose_o.model_name = "unit_box"
 
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
-	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs)[0])
+	rotation_matrix = np.transpose(Rotation.from_euler('xyz', rvecs, degrees=False))
 	tf[0:3, 0:3] = rotation_matrix
 	tf[3][3] = 1
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)
@@ -78,18 +81,20 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 		tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
 	
-	tf = tf_1 
+	tf_1[0:3, 3:4] = tf_1[0:3, 3:4]/1000
+	tf = tf_1 * qrcode_tf1
 
-	rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
+	#rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
 	tvecs = tf[0:3, 3:4]
-	pose_o = Twist()
-	pose_o.linear.x = tvecs[0]
-	pose_o.linear.y = tvecs[1]
-	pose_o.linear.z = tvecs[2]
-	pose_o.angular.x = rvecs[0]
-	pose_o.angular.y = rvecs[1]
-	pose_o.angular.z = rvecs[2]
-	talker(pose_o)
+	
+	pose_o.pose.position.x = tvecs[0]
+	pose_o.pose.position.y = tvecs[1]
+	pose_o.pose.position.z = tvecs[2]
+	pose_o.pose.orientation.x = 0
+	pose_o.pose.orientation.y = 0
+	pose_o.pose.orientation.z = 0
+	pose_o.pose.orientation.w = 0
+	pub.publish(pose_o)
 
 video_capture1.release()
 video_capture2.release()
