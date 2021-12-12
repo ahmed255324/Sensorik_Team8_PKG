@@ -10,8 +10,7 @@ from geometry_msgs.msg import Twist
 def talker(pose_opj):
 	pub = rospy.Publisher('Farzeug_Pose', Twist, queue_size=10)
 	rospy.init_node('Pose_estimation', anonymous=True)
-	#pub.publish(pose_opj)
-	print(pose_opj)
+	pub.publish(pose_opj)
 
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
@@ -83,9 +82,14 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
 	rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
 	tvecs = tf[0:3, 3:4]
-	pose_o = Twist
-	print(tvecs)	
-	#talker(pose_o)
+	pose_o = Twist()
+	pose_o.linear.x = tvecs[0]
+	pose_o.linear.y = tvecs[1]
+	pose_o.linear.z = tvecs[2]
+	pose_o.angular.x = rvecs[0]
+	pose_o.angular.y = rvecs[1]
+	pose_o.angular.z = rvecs[2]
+	talker(pose_o)
 
 video_capture1.release()
 video_capture2.release()
