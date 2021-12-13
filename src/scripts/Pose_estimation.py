@@ -5,7 +5,6 @@ from pyzbar.pyzbar import decode
 import numpy as np
 import rospy
 from gazebo_msgs.msg import ModelState
-from scipy.spatial.transform import Rotation
 
 qrcode_tf1 =[[0, 0, 1, 0],[-1, 0, 0, 3.57],[0, -1, 0, 1.38],[0, 0, 0, 1]]
 
@@ -17,7 +16,7 @@ pose_o.model_name = "unit_box"
 
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
-	rotation_matrix = np.transpose(Rotation.from_euler('xyz', rvecs, degrees=False))
+	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs)[0])
 	tf[0:3, 0:3] = rotation_matrix
 	tf[3][3] = 1
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)
