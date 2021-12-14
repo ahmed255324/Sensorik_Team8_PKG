@@ -6,7 +6,10 @@ import numpy as np
 import rospy
 from gazebo_msgs.msg import ModelState
 
-qrcode_tf1 =[[0, 0, 1, 0],[-1, 0, 0, 3.57],[0, -1, 0, 1.38],[0, 0, 0, 1]]
+qrcode_tf1 =[[1, 0, 0, 2.84],
+			 [0, 0, 1, 0],
+			 [0, -1, 0, 40],
+			 [0, 0, 0, 1]]
 
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
