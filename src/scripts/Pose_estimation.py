@@ -87,15 +87,16 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
 	#rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
 	tvecs = tf[0:3, 3:4]
-	
-	pose_o.pose.position.x = tvecs[0]
-	pose_o.pose.position.y = tvecs[1]
-	pose_o.pose.position.z = tvecs[2]
-	pose_o.pose.orientation.x = 0
-	pose_o.pose.orientation.y = 0
-	pose_o.pose.orientation.z = 0
-	pose_o.pose.orientation.w = 0
-	pub.publish(pose_o)
+	print(tvecs)
+
+	#pose_o.pose.position.x = tvecs[0]
+	#pose_o.pose.position.y = tvecs[1]
+	#pose_o.pose.position.z = tvecs[2]
+	#pose_o.pose.orientation.x = 0
+	#pose_o.pose.orientation.y = 0
+	#pose_o.pose.orientation.z = 0
+	#pose_o.pose.orientation.w = 0
+	#pub.publish(pose_o)
 
 video_capture1.release()
 video_capture2.release()
