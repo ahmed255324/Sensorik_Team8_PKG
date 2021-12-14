@@ -8,7 +8,7 @@ from gazebo_msgs.msg import ModelState
 
 qrcode_tf1 =[[1, 0, 0, 2.84],
 			 [0, 0, 1, 0],
-			 [0, -1, 0, 40],
+			 [0, -1, 0, 0.40],
 			 [0, 0, 0, 1]]
 
 rospy.init_node('Pose_estimation', anonymous=True)
@@ -16,7 +16,6 @@ pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
 
 pose_o = ModelState()
 pose_o.model_name = "unit_box"
-
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
 	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs)[0])
