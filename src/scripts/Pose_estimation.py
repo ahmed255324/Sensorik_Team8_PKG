@@ -70,7 +70,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		tf_1 = TF(rvecs=rvecs_1, tvecs=tvecs_1)
 		i = int(str(barcodeData_1))-1
 		print(i)
-		tf = tf_1 * tabelle.qrcode_tf[i]
+		tf = tf_1 * tabelle.qrcode_tf[int(i)]
 		print(tf[0:3, 3:4])
 
 	for qrcode2 in code2:
