@@ -6,10 +6,20 @@ import numpy as np
 import rospy
 from gazebo_msgs.msg import ModelState
 
-qrcode_tf1 =[[1, 0, 0, 2.84],
-			 [0, 0, 1, 0],
-			 [0, -1, 0, 0.40],
-			 [0, 0, 0, 1]]
+qrcode_tf =[[[1, 		0, 			0, 		1.46],
+			 [0, 		0, 			1, 		1,22],
+			 [0, 	   -1, 			0, 		0],
+			 [0, 		0, 			0, 		1]],
+
+			 [[1, 		0, 			0, 		2.84],
+			 [0, 		0, 			1, 		0],
+			 [0,       -1, 			0, 		0.40],
+			 [0, 		0, 			0, 		1]],
+
+			 [[1, 		0, 			0, 		2.84],
+			 [0, 		0, 			1, 		0],
+			 [0,       -1, 			0, 		0.40],
+			 [0, 		0, 			0, 		1]]]
 
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
@@ -64,6 +74,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
 	for qrcode1 in code1:
 		barcodeData_1 = qrcode1.data.decode("utf-8")
+		print(barcodeData_1)
 		points = np.array(code1[0].polygon, np.int32)
 		imagePoints[0] = [[points[0][0]], [points[0][1]]]
 		imagePoints[1] = [[points[1][0]], [points[1][1]]]
@@ -83,7 +94,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
 	
 	tf_1[0:3, 3:4] = tf_1[0:3, 3:4]/1000
-	tf = tf_1 * qrcode_tf1
+	tf = tf_1 * qrcode_tf[1]
 
 	#rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
 	tvecs = tf[0:3, 3:4]
