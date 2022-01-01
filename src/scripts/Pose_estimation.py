@@ -25,7 +25,6 @@ video_capture2 = cv2.VideoCapture(2, cv2.CAP_V4L2)
 #video_capture3 = cv2.VideoCapture(4)
 
 a = 190
-b = 190
 
 cameraMatrix_1 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_1/cameraMatrix_1.csv", delimiter=',')
 cameraMatrix_2 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/cameraMatrix_2.csv", delimiter=',')
@@ -41,9 +40,9 @@ imagePoints = np.random.random((4,2,1))
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 objectPoints[0] = [[0], [0], [0]]
-objectPoints[1] = [[0], [a], [0]]
-objectPoints[2] = [[-b], [a], [0]]
-objectPoints[3] = [[-b], [0], [0]]
+objectPoints[1] = [[-a], [0], [0]]
+objectPoints[2] = [[0], [a], [0]]
+objectPoints[3] = [[-a], [0], [0]]
 
 tf_1 = np.zeros((4,4))	
 tf_2 = np.zeros((4,4))
@@ -69,7 +68,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		imagePoints[3] = [[points[3][0]], [points[3][1]]]
 		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
 		tf_1 = TF(rvecs=rvecs_1, tvecs=tvecs_1)
-		tf_1 = tf_1 * tabelle.qrcode_tf[int(barcodeData_1)-1]
+		tf_1 = tabelle.qrcode_tf[int(barcodeData_1)-1] * tf_1
 		print(tf_1[0:3, 3:4])
 
 	for qrcode2 in code2:
