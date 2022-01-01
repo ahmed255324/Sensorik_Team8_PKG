@@ -70,8 +70,8 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		tf_1 = TF(rvecs=rvecs_1, tvecs=tvecs_1)
 		i = int(str(barcodeData_1))-1
 		print(i)
-		#tf = tf_1 * tabelle.qrcode_tf[1]
-		#print(tf[0:3, 3:4])
+		tf = tf_1 * tabelle.qrcode_tf[i]
+		print(tf[0:3, 3:4])
 
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
