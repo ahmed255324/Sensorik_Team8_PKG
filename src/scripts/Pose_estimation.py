@@ -81,7 +81,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		imagePoints[3] = [[points[3][0]], [points[3][1]]]
 		_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 		tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
-		tf = tf_2 * tabelle.qrcode_tf[barcodeData_1-1]
+		tf = tf_2 * tabelle.qrcode_tf[int(barcodeData_1)-1]
 
 	#pose_o.pose.position.x = tvecs[0]
 	#pose_o.pose.position.y = tvecs[1]
