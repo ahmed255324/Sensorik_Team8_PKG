@@ -17,7 +17,7 @@ def TF(rvecs, tvecs):
 	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs)[0])
 	tf[0:3, 0:3] = rotation_matrix
 	tf[3][3] = 1
-	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
+	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)
 	return tf
 
 video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
