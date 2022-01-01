@@ -17,7 +17,7 @@ def TF(rvecs, tvecs):
 	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs)[0])
 	tf[0:3, 0:3] = rotation_matrix
 	tf[3][3] = 1
-	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)
+	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
 	return tf
 
 video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
@@ -69,12 +69,8 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		imagePoints[3] = [[points[3][0]], [points[3][1]]]
 		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
 		tf_1 = TF(rvecs=rvecs_1, tvecs=tvecs_1)
-		tf_1[0:3, 3:4] = tf_1[0:3, 3:4]/1000
 		tf = tf_1 * tabelle.qrcode_tf[barcodeData_1-1]
-
-		#rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
-		tvecs = tf[0:3, 3:4]
-		print(tvecs)
+		print(tf[0:3, 3:4])
 
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
@@ -86,7 +82,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 		tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
 		tf_2[0:3, 3:4] = tf_2[0:3, -1]/1000
-		tf = tf_1 * tabelle.qrcode_tf[barcodeData_1-1]
+		tf = tf_2 * tabelle.qrcode_tf[barcodeData_1-1]
 
 	#pose_o.pose.position.x = tvecs[0]
 	#pose_o.pose.position.y = tvecs[1]
