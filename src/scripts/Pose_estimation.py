@@ -41,8 +41,8 @@ criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 objectPoints[0] = [[0], [0], [0]]
 objectPoints[1] = [[-a], [0], [0]]
-objectPoints[2] = [[0], [a], [0]]
-objectPoints[3] = [[-a], [a], [0]]
+objectPoints[2] = [[-a], [a], [0]]
+objectPoints[3] = [[0], [a], [0]]
 
 tf_1 = np.zeros((4,4))	
 tf_2 = np.zeros((4,4))
