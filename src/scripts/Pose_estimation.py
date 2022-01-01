@@ -5,27 +5,13 @@ from pyzbar.pyzbar import decode
 import numpy as np
 import rospy
 from gazebo_msgs.msg import ModelState
-
-qrcode_tf =[[[1, 		0, 			0, 		1.46],
-			 [0, 		0, 			1, 		1,22],
-			 [0, 	   -1, 			0, 		0],
-			 [0, 		0, 			0, 		1]],
-
-			 [[1, 		0, 			0, 		2.84],
-			 [0, 		0, 			1, 		0],
-			 [0,       -1, 			0, 		0.40],
-			 [0, 		0, 			0, 		1]],
-
-			 [[1, 		0, 			0, 		2.84],
-			 [0, 		0, 			1, 		0],
-			 [0,       -1, 			0, 		0.40],
-			 [0, 		0, 			0, 		1]]]
+import tabelle
 
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
-
 pose_o = ModelState()
 pose_o.model_name = "unit_box"
+
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
 	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs)[0])
@@ -33,12 +19,13 @@ def TF(rvecs, tvecs):
 	tf[3][3] = 1
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)
 	return tf
+
 video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
 video_capture2 = cv2.VideoCapture(2, cv2.CAP_V4L2)
 #video_capture3 = cv2.VideoCapture(4)
 
-a = 174
-b = 166
+a = 190
+b = 190
 
 cameraMatrix_1 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_1/cameraMatrix_1.csv", delimiter=',')
 cameraMatrix_2 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/cameraMatrix_2.csv", delimiter=',')
@@ -82,6 +69,12 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		imagePoints[3] = [[points[3][0]], [points[3][1]]]
 		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
 		tf_1 = TF(rvecs=rvecs_1, tvecs=tvecs_1)
+		tf_1[0:3, 3:4] = tf_1[0:3, 3:4]/1000
+		tf = tf_1 * tabelle.qrcode_tf[barcodeData_1-1]
+
+		#rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
+		tvecs = tf[0:3, 3:4]
+		print(tvecs)
 
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
@@ -92,13 +85,8 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		imagePoints[3] = [[points[3][0]], [points[3][1]]]
 		_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 		tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
-	
-	tf_1[0:3, 3:4] = tf_1[0:3, 3:4]/1000
-	tf = tf_1 * qrcode_tf[1]
-
-	#rvecs = cv2.Rodrigues(tf[0:3, 0:3])[0]
-	tvecs = tf[0:3, 3:4]
-	print(tvecs)
+		tf_2[0:3, 3:4] = tf_2[0:3, -1]/1000
+		tf = tf_1 * tabelle.qrcode_tf[barcodeData_1-1]
 
 	#pose_o.pose.position.x = tvecs[0]
 	#pose_o.pose.position.y = tvecs[1]
