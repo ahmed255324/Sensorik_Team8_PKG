@@ -61,6 +61,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 	for qrcode1 in code1:
 		barcodeData_1 = qrcode1.data.decode("utf-8")
 		points = np.array(code1[0].polygon, np.int32)
+		print(qrcode1)
 		imagePoints[0] = [[points[0][0]], [points[0][1]]]
 		imagePoints[1] = [[points[1][0]], [points[1][1]]]
 		imagePoints[2] = [[points[2][0]], [points[2][1]]]
@@ -78,8 +79,8 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		imagePoints[2] = [[points[2][0]], [points[2][1]]]
 		imagePoints[3] = [[points[3][0]], [points[3][1]]]
 		_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-		tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
-		tf_2 = tabelle.qrcode_tf[int(barcodeData_2)-1] * tf_2 
+		#tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
+		#tf_2 = tabelle.qrcode_tf[int(barcodeData_2)-1] * tf_2 
 
 	#pose_o.pose.position.x = tvecs[0]
 	#pose_o.pose.position.y = tvecs[1]
