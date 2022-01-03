@@ -7,6 +7,8 @@ import rospy
 from gazebo_msgs.msg import ModelState
 import tabelle
 
+import QRCode
+
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
 pose_o = ModelState()
