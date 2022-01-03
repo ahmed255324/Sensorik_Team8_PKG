@@ -7,8 +7,6 @@ import rospy
 from gazebo_msgs.msg import ModelState
 import tabelle
 
-import QRCode
-
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
 pose_o = ModelState()
@@ -41,10 +39,11 @@ imagePoints = np.random.random((4,2,1))
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
-objectPoints[0] = [[0], [0], [0]]
-objectPoints[1] = [[-a], [0], [0]]
-objectPoints[2] = [[-a], [a], [0]]
-objectPoints[3] = [[0], [a], [0]]
+objectPoints[0] = [[-a/2], [a/2], [0]]
+objectPoints[1] = [[-a/2], [-a/2], [0]]
+objectPoints[2] = [[a/2], [-a/2], [0]]
+objectPoints[3] = [[a/2], [a/2], [0]]
+
 
 tf_1 = np.zeros((4,4))	
 tf_2 = np.zeros((4,4))
@@ -70,7 +69,6 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		imagePoints[3] = [[points[3][0]], [points[3][1]]]
 		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
 		tf_1 = TF(rvecs=rvecs_1, tvecs=tvecs_1)
-
 		#tf_1 = tabelle.qrcode_tf[int(barcodeData_1)-1] * tf_1
 		print(tf_1)
 
