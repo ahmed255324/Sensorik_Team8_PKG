@@ -120,9 +120,9 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		#else:
 			#tf = tf_3
 			
-	pose_o.pose.position.x = tf[0][-1] 
-	pose_o.pose.position.y = tf[1][-1]
-	pose_o.pose.position.z = tf[2][-1]
+	pose_o.pose.position.x = tf[0, -1] 
+	pose_o.pose.position.y = tf[1, -1]
+	pose_o.pose.position.z = tf[2, -1]
 
 	#pose_o.pose.orientation.x = 0
 	#pose_o.pose.orientation.y = 0
