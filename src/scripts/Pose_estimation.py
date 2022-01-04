@@ -123,25 +123,21 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 			
 	pose_o.pose.position.x = tf[0][3] 
 	pose_o.pose.position.y = tf[1][3]
-	pose_o.pose.position.z = tf[2][3]
+	pose_o.pose.position.z = 0
 
-	print(tf)
+	M1 = tf[0:3, 0:3]
+	
+	# Quaternion
+	r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
+	i = (M1[2,1]-M1[1,2])/(4*r)
+	j = (M1[0,2]-M1[2,0])/(4*r)
+	k = (M1[1,0]-M1[0,1])/(4*r)
 
-	#pose_o.pose.orientation.x = 0
-	#pose_o.pose.orientation.y = 0
-	#pose_o.pose.orientation.z = 0
-	#pose_o.pose.orientation.w = 0
-	#pub.publish(pose_o)
-
-
-	#pose_o.pose.position.x = tvecs[0]
-	#pose_o.pose.position.y = tvecs[1]
-	#pose_o.pose.position.z = tvecs[2]
-	#pose_o.pose.orientation.x = 0
-	#pose_o.pose.orientation.y = 0
-	#pose_o.pose.orientation.z = 0
-	#pose_o.pose.orientation.w = 0
-	#pub.publish(pose_o)
+	pose_o.pose.orientation.x = r
+	pose_o.pose.orientation.y = i
+	pose_o.pose.orientation.z = j
+	pose_o.pose.orientation.w = k
+	pub.publish(pose_o)
 
 video_capture1.release()
 video_capture2.release()
