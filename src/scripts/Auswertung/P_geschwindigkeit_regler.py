@@ -5,9 +5,9 @@ from sensor_msgs.msg import Joy
 import sys
 
 def geschwindigkeit_regler(geschwindigkeit, lenkung):
-    joy_pub = Joy
-    joy_pub.axes[1] = geschwindigkeit
-    joy_pub.axes[3] = lenkung
+    joy_pub = Joy()
+    joy_pub.axes = [0, geschwindigkeit, 0, lenkung, 0, 0]
+
     rospy.init_node("P_geschwindigkeit_regler", anonymous=True)
     pub = rospy.Publisher("/joy", Joy, queue_size=1)
     rate = rospy.Rate(10) # 10 hz
