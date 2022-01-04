@@ -134,9 +134,9 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 	k = (M1[1,0]-M1[0,1])/(4*r)
 
 	pose_o.pose.orientation.x = r
-	pose_o.pose.orientation.y = j
-	pose_o.pose.orientation.z = i
-	pose_o.pose.orientation.w = k
+	pose_o.pose.orientation.y = i
+	pose_o.pose.orientation.z = k
+	pose_o.pose.orientation.w = j
 	pub.publish(pose_o)
 
 video_capture1.release()
