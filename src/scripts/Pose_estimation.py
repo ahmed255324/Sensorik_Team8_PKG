@@ -96,9 +96,6 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 	#	tf_3 = TF(rvecs=rvecs_3, tvecs=tvecs_3)
 	#	tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 	#	tf_3 = np.dot(tf_3, [[0, -1, 0, 0], [0, 0, 1, 0], [-1, 0, 0, -0.1], [0, 0, 0, 1]])
-	print(code2)
-	print(code1)
-
 	if(code1):
 		if(code2):
 			tf = (tf_1 + tf_2)/2
