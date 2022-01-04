@@ -62,7 +62,6 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 	for qrcode1 in code1:
 		barcodeData_1 = qrcode1.data.decode("utf-8")
 		points = np.array(code1[0].polygon, np.int32)
-		print(qrcode1)
 		imagePoints[0] = [[points[0][0]], [points[0][1]]]
 		imagePoints[1] = [[points[1][0]], [points[1][1]]]
 		imagePoints[2] = [[points[2][0]], [points[2][1]]]
@@ -70,7 +69,8 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
 		tf_1 = TF(rvecs=rvecs_1, tvecs=tvecs_1)
 		tf_1 = np.dot(tabelle.qrcode_tf[int(barcodeData_1)-1], tf_1)
-		print(tf_1)
+		tf_1 = np.dot([[-1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, -0.05], [0, 0, 0, 1]], tf_1)
+
 
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
@@ -80,8 +80,56 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		imagePoints[2] = [[points[2][0]], [points[2][1]]]
 		imagePoints[3] = [[points[3][0]], [points[3][1]]]
 		_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-		#tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
-		#tf_2 = tabelle.qrcode_tf[int(barcodeData_2)-1] * tf_2 
+		tf_2 = TF(rvecs=rvecs_2, tvecs=tvecs_2)
+		tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
+		tf_2 = np.dot([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, -0.05], [0, 0, 0, 1]], tf_1)
+	
+	#for qrcode3 in code3:
+	#	barcodeData_3 = qrcode3.data.decode("utf-8")
+	#	points = np.array(code2[0].polygon, np.int32)
+	#	imagePoints[0] = [[points[0][0]], [points[0][1]]]
+	#	imagePoints[1] = [[points[1][0]], [points[1][1]]]
+	#	imagePoints[2] = [[points[2][0]], [points[2][1]]]
+	#	imagePoints[3] = [[points[3][0]], [points[3][1]]]
+	#	_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
+	#	tf_3 = TF(rvecs=rvecs_3, tvecs=tvecs_3)
+	#	tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_3)
+	#	tf_3 = np.dot([[0, -1, 0, 0], [0, 0, 1, 0], [-1, 0, 0, -0.1], [0, 0, 0, 1]], tf_1)
+
+	if(code1):
+		if(code2):
+			tf = (tf_1 + tf_2)/2
+		#elif(code3):
+		#	tf = (tf_1 + tf_3)/2
+		else:
+			tf = tf_1
+
+	elif(code2):
+		if(code1):
+			tf = (tf_1 + tf_2)/2
+		#elif(code3):
+		#	tf = (tf_2 + tf_3)/2
+		else:
+			tf = tf_2
+	
+	#elif(code3):
+		#if(code1):
+			#tf = (tf_1 + tf_3)/2
+		#elif(code2):
+			#tf = (tf_2 + tf_3)/2
+		#else:
+			#tf = tf_3
+			
+	pose_o.pose.position.x = tf[0][-1] 
+	pose_o.pose.position.y = tf[1][-1]
+	pose_o.pose.position.z = tf[2][-1]
+
+	#pose_o.pose.orientation.x = 0
+	#pose_o.pose.orientation.y = 0
+	#pose_o.pose.orientation.z = 0
+	#pose_o.pose.orientation.w = 0
+	#pub.publish(pose_o)
+
 
 	#pose_o.pose.position.x = tvecs[0]
 	#pose_o.pose.position.y = tvecs[1]
