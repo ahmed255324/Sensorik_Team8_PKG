@@ -5,7 +5,7 @@ from sensor_msgs.msg import Joy
 import sys
 
 def geschwindigkeit_regler(geschwindigkeit, lenkung):
-    joy_pub = Joy()
+    joy_pub = Joy
     joy_pub.axes[1] = geschwindigkeit
     joy_pub.axes[3] = lenkung
     rospy.init_node("P_geschwindigkeit_regler", anonymous=True)
