@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from pyzbar.pyzbar import decode
 
-video_capture1 = cv2.VideoCapture(2)
+video_capture1 = cv2.VideoCapture(0)
 
 while(True):
     ret1, image = video_capture1.read()
