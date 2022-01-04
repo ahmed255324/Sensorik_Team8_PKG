@@ -1,3 +1,3 @@
-floate32 geschwindigkeit
-floate32 lenkung
+float32 geschwindigkeit
+float32 lenkung
 
