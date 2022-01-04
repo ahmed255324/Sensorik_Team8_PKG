@@ -48,6 +48,7 @@ objectPoints[3] = [[a/2], [a/2], [0]]
 tf_1 = np.zeros((4,4))	
 tf_2 = np.zeros((4,4))
 tf_3 = np.zeros((4,4))
+tf= np.zeros((4,4))
 
 while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
