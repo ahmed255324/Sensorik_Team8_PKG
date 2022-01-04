@@ -125,6 +125,8 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 	pose_o.pose.position.y = tf[1][3]
 	pose_o.pose.position.z = tf[2][3]
 
+	print(tf)
+
 	#pose_o.pose.orientation.x = 0
 	#pose_o.pose.orientation.y = 0
 	#pose_o.pose.orientation.z = 0
