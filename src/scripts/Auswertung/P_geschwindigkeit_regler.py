@@ -6,8 +6,8 @@ import sys
 
 def geschwindigkeit_regler(geschwindigkeit, lenkung):
     joy_pub = Joy()
-    joy_pub.axes[1] = geschwindigkeit
-    joy_pub.axes[3] = lenkung
+    joy_pub.axes[1] = 0.1
+    joy_pub.axes[3] = 0.6
     rospy.init_node('P_geschwindigkeit_regler', anonymous=True)
     pub = rospy.Publisher('/joy', Joy, queue_size=1)
     rate = rospy.Rate(10) # 10 hz
