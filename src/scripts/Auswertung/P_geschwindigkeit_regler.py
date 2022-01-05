@@ -5,8 +5,8 @@ from Sensorik_Team8_PKG.msg import movecontrol
 
 def geschwindigkeit_regler():
     steuerung = movecontrol()
-    steuerung.geschwindigkeit = 0.4
-    steuerung.lenkung = 
+    steuerung.geschwindigkeit = 0.0
+    steuerung.lenkung = 1
     rospy.init_node("P_geschwindigkeit_regler", anonymous=True)
     pub = rospy.Publisher("/movecontrol", movecontrol, queue_size=1)
     rate = rospy.Rate(100) # 10 hz
