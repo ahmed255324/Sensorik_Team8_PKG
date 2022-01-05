@@ -17,4 +17,12 @@ def eulerAnglesToRotationMatrix(R):
     r, _ = cv2.Rodrigues(R)
     return np.array([r[0], r[1], r[2]])
 
+def isRotationMatrix(R):
+    Rt = np.transpose(R)
+    shouldBeIdentity = np.dot(Rt, R)
+    I = np.identity(3, dtype = R.dtype)
+    n = np.linalg.norm(I - shouldBeIdentity)
+    return n < 1e-6
+
+
 
