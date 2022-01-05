@@ -1,25 +1,6 @@
 import numpy as np
 import math
-
-def eulerAnglesToRotationMatrix(theta):
-    R_x = np.array([[1,         0,                  0                   ],
-                    [0,         math.cos(theta[0]), -math.sin(theta[0]) ],
-                    [0,         math.sin(theta[0]), math.cos(theta[0])  ]
-                    ])
-
-    R_y = np.array([[math.cos(theta[1]),    0,      math.sin(theta[1])  ],
-                    [0,                     1,      0                   ],
-                    [-math.sin(theta[1]),   0,      math.cos(theta[1])  ]
-                    ])
-
-    R_z = np.array([[math.cos(theta[2]),    -math.sin(theta[2]),    0],
-                    [math.sin(theta[2]),    math.cos(theta[2]),     0],
-                    [0,                     0,                      1]
-                    ])
-
-    R = np.dot(R_z, np.dot( R_y, R_x ))
-
-    return R
+import cv2
 
 def isRotationMatrix(R):
     Rt = np.transpose(R)
@@ -31,7 +12,7 @@ def isRotationMatrix(R):
 
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
-	rotation_matrix = eulerAnglesToRotationMatrix(rvecs)
+	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs)[0]) 
 	tf[0:3, 0:3] = rotation_matrix
 	tf[3][3] = 1
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
