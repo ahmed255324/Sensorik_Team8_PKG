@@ -2,15 +2,14 @@
 
 import rospy
 from Sensorik_Team8_PKG.msg import movecontrol
-import sys
 
 def geschwindigkeit_regler():
     steuerung = movecontrol()
-    steuerung.geschwindigkeit = 0.3
-    steuerung.lenkung = 0.6
+    steuerung.geschwindigkeit = 0.4
+    steuerung.lenkung = 
     rospy.init_node("P_geschwindigkeit_regler", anonymous=True)
-    pub = rospy.Publisher("/control", movecontrol, queue_size=1)
-    rate = rospy.Rate(10) # 10 hz
+    pub = rospy.Publisher("/movecontrol", movecontrol, queue_size=1)
+    rate = rospy.Rate(100) # 10 hz
     #keep publishing until a Ctrl-C is pressed
     while not rospy.is_shutdown():
         pub.publish(steuerung)
