@@ -22,7 +22,7 @@ def isRotationMatrix(R):
     shouldBeIdentity = np.dot(Rt, R)
     I = np.identity(3, dtype = R.dtype)
     n = np.linalg.norm(I - shouldBeIdentity)
-    return n < 1e-4
+    return n < 1e-6
 
 
 
