@@ -30,9 +30,7 @@ def TF(rvecs, tvecs):
 	return tf
 
 def eulerAnglesToRotationMatrix(R):
-    r = np. array([0, 0, 0])
-    if(isRotationMatrix(R)):
-        r, _ = cv2.Rodrigues(R)
+    r, _ = cv2.Rodrigues(R)
     return np.array([r[0], r[1], r[2]])
 
 
