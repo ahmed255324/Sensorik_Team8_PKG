@@ -44,7 +44,7 @@ tf_2 = np.zeros((4,4))
 tf_3 = np.zeros((4,4))
 tf= np.zeros((4,4))
 
-while(not rospy.is_shutdown()): #not rospy.is_shutdown():
+while(not rospy.is_shutdown()):
 
 	ret1, frame1 = video_capture1.read()
 	ret2, frame2 = video_capture2.read()
@@ -64,7 +64,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
 		tf_1 = funktionen.TF(rvecs=rvecs_1, tvecs=tvecs_1)
 		tf_1 = np.dot(tabelle.qrcode_tf[int(barcodeData_1)-1], tf_1)
-		tf_1 = np.dot([[-1, 0, 0, 0], [0, 0, 1, 0], [1, 0, 0, 0], [0, 0, 0, 1]], tf_1)
+		tf_1 = np.dot(tf_1, [[-1, 0, 0, 0], [0, 0, 1, 0], [1, 0, 0, 0], [0, 0, 0, 1]])
 
 
 	for qrcode2 in code2:
