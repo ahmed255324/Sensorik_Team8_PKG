@@ -123,7 +123,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
 		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
 
-		print((eulerW*(180/3,14))
+		print((eulerW*(180/3,14)))
 
 		# Quaternion
 		r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
