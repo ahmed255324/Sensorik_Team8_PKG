@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from math import pi
 import cv2
 from pyzbar.pyzbar import decode
 import numpy as np
@@ -120,7 +121,7 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
 		M1 = tf[0:3, 0:3]
 
-		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
+		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)*(180/np,pi)
 
 		print(eulerW)
 
