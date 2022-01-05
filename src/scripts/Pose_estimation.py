@@ -121,9 +121,9 @@ while(not rospy.is_shutdown()): #not rospy.is_shutdown():
 
 		M1 = tf[0:3, 0:3]
 
-		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)*(180/np,pi)
+		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
 
-		print(eulerW)
+		print((eulerW*(180/np,pi)))
 
 		# Quaternion
 		r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
