@@ -30,16 +30,8 @@ def TF(rvecs, tvecs):
 	return tf
 
 def rotationMatrixToEulerAngles(R) :
-    assert(isRotationMatrix(R))
-    sy = math.sqrt(R[0,0] * R[0,0] +  R[1,0] * R[1,0])
-    singular = sy < 1e-6
-    if  not singular :
-        x = math.atan2(R[2,1] , R[2,2])
-        y = math.atan2(-R[2,0], sy)
-        z = math.atan2(R[1,0], R[0,0])
-    else :
-        x = math.atan2(-R[1,2], R[1,1])
-        y = math.atan2(-R[2,0], sy)
-        z = 0
-    return np.array([x, y, z])
+    if(isRotationMatrix(R)):
+        r, _ = cv2.Rodrigues(R)
+        return np.array([r[0], r[1], r[2]])
+    
 
