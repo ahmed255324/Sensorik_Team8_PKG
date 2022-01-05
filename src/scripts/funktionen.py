@@ -29,9 +29,10 @@ def TF(rvecs, tvecs):
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
 	return tf
 
-def rotationMatrixToEulerAngles(R) :
+def rotationMatrixToEulerAngles(R):
+    r = np. array([0, 0, 0])
     if(isRotationMatrix(R)):
         r, _ = cv2.Rodrigues(R)
-        return np.array([r[0], r[1], r[2]])
-    
+    return np.array([r[0], r[1], r[2]])
+
 
