@@ -2,7 +2,7 @@ import numpy as np
 import math
 
 def eulerAnglesToRotationMatrix(theta):
-
+    theta = np.transpose(theta)
     R_x = np.array([[1,         0,                  0                   ],
                     [0,         math.cos(theta[0]), -math.sin(theta[0]) ],
                     [0,         math.sin(theta[0]), math.cos(theta[0])  ]
