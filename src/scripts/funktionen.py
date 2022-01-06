@@ -7,7 +7,7 @@ import cv2
 
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
-	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs)[0]) 
+	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs, cv2.CV_64F)[0]) 
 	tf[0:3, 0:3] = rotation_matrix
 	tf[3][3] = 1
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
