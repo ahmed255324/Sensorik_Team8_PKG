@@ -6,12 +6,15 @@ from pyzbar.pyzbar import decode
 import numpy as np
 import rospy
 from gazebo_msgs.msg import ModelState
+from Sensorik_Team8_PKG.msg import auswertungsmessage
 import tabelle
 import funktionen
 
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
+puba = rospy.Publisher('/Auswertung', auswertungsmessage, queue_size=10)
 pose_o = ModelState()
+pose_a = auswertungsmessage()
 pose_o.model_name = "unit_box"
 
 video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
@@ -118,10 +121,12 @@ while(not rospy.is_shutdown()):
 		pose_o.pose.position.x = tf[0][3] 
 		pose_o.pose.position.y = tf[1][3]
 		pose_o.pose.position.z = 0
+		pose_a.X = tf[0][3]
+		pose_a.Y = tf[1][3]
 		M1 = tf[0:3, 0:3]
 		#if(funktionen.isRotationMatrix(M1)):
 		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)			
-		print((eulerW*(180/pi)))
+		pose_a.Z = eulerW[2]*(180/pi)
 		# Quaternion
 		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
 			r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
@@ -134,6 +139,7 @@ while(not rospy.is_shutdown()):
 			pose_o.pose.orientation.w = j
 			
 		pub.publish(pose_o)
+		puba.publish(pose_a)
 	
 video_capture1.release()
 video_capture2.release()
