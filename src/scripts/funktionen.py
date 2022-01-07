@@ -5,6 +5,7 @@ import cv2
 # The result is the same as MATLAB except the order
 # of the euler angles ( x and z are swapped ).
 
+
 def TF(rvecs, tvecs):
 	tf = np.zeros((4,4), dtype= float)
 	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs, cv2.CV_64F)[0]) 
