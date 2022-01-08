@@ -52,6 +52,8 @@ find_package(catkin REQUIRED COMPONENTS
    FILES
    movecontrol.msg
    auswertungsmessage.msg
+   geschwindigkeitUndMessrate.msg
+   joy_axes.msg
  )
 
 ## Generate services in the 'srv' folder
