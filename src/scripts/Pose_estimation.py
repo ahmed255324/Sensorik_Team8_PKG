@@ -7,14 +7,17 @@ import numpy as np
 import rospy
 from gazebo_msgs.msg import ModelState
 from Sensorik_Team8_PKG.msg import auswertungsmessage
+from std_msgs.msg import Empty
 import tabelle
 import funktionen
 
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
 puba = rospy.Publisher('/Auswertung', auswertungsmessage, queue_size=10)
+pubm = rospy.Publisher('/Messung', Empty, queue_size=10)
 pose_o = ModelState()
 pose_a = auswertungsmessage()
+empty_message = Empty()
 pose_o.model_name = "unit_box"
 
 video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
@@ -140,6 +143,7 @@ while(not rospy.is_shutdown()):
 			
 		pub.publish(pose_o)
 		puba.publish(pose_a)
+		pubm.publish(empty_message)
 	
 video_capture1.release()
 video_capture2.release()
