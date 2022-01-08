@@ -12,7 +12,7 @@ def callback(data):
     pub.publish(joypub)
 
 rospy.init_node('python_umwandler', anonymous=True)
-pub = rospy.Publisher('/arduino_steuerung', joy_axes, queue_size=1)
+pub = rospy.Publisher('/arduino_steuerung', joy_axes, queue_size=100)
 rospy.Subscriber("/joy", Joy, callback)
 
 rospy.spin()
