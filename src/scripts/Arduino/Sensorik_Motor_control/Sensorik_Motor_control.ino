@@ -5,7 +5,7 @@
 #include <ros.h>
 #include <Sensorik_Team8_PKG/joy_axes.h>
 #include <Sensorik_Team8_PKG/movecontrol.h>
-#include <Sensorik_Team8_PKG/geschwindigkeitUndMessrate.h>
+#include <Sensorik_Team8_PKG/geschwindigkeit.h>
 ros::NodeHandle nh;
 
 //Tachometer
@@ -26,8 +26,8 @@ void messageCbc( const Sensorik_Team8_PKG::movecontrol& move){
 
 ros::Subscriber<Sensorik_Team8_PKG::joy_axes> sub("/arduino_steuerung", &messageCb );
 ros::Subscriber<Sensorik_Team8_PKG::movecontrol> subc("/movecontrol", &messageCbc );
-Sensorik_Team8_PKG::geschwindigkeitUndMessrate gundmm;
-ros::Publisher gundm("/gundm", &gundmm);
+Sensorik_Team8_PKG::geschwindigkeit g;
+ros::Publisher gundm("/AutoGeschwindigkeit", &g);
 
 void setup() 
 {
@@ -49,7 +49,7 @@ void loop()
     for (int i = 0; i < 4; i++) {
     temp |= ((unsigned char)Wire.read() << (i * 8)); // respond with message of 4 bytes
     }
-    gundmm.Geschwindigkeit = (double)temp / 13107.0;
-    gundm.publish(&gundmm);
+    g.Geschwindigkeit = (double)temp / 13107.0;
+    gundm.publish(&g);
     nh.spinOnce();
 }

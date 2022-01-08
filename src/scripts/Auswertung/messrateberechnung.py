@@ -5,14 +5,15 @@ import time
 from datetime import datetime
 
 mesrate_o = geschwindigkeitUndMessrate()
-time_0 = 0
-time_1 = 0
+time_0 = datetime.now()
+time_1 = datetime
 def callback(data):
     global mesrate_o, time_0, time_1
     time_1 = datetime.now()
     difference = time_1 - time_0
-    mesrate_o = difference.total_seconds()
+    mesrate_o.messrate = 1/difference.total_seconds()
     pub.publish(mesrate_o)
+    time_0 = time_1
 
 rospy.init_node('messrate_node', anonymous=True)
 pub = rospy.Publisher('/gundm', geschwindigkeitUndMessrate, queue_size=1)

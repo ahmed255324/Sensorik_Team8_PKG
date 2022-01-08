@@ -52,7 +52,8 @@ find_package(catkin REQUIRED COMPONENTS
    FILES
    movecontrol.msg
    auswertungsmessage.msg
-   geschwindigkeitUndMessrate.msg
+   geschwindigkeit.msg
+   messrate.msg
    joy_axes.msg
  )
 
