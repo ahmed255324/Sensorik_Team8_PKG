@@ -3,30 +3,42 @@
 #include <Wire.h>
 #include <Servo.h>                          //Include Servo Library
 #include <ros.h>
-#include <Sensorik_Team8_PKG/joy_axes.h>
-#include <Sensorik_Team8_PKG/movecontrol.h>
+//#include <Sensorik_Team8_PKG/joy_axes.h>
+//#include <Sensorik_Team8_PKG/movecontrol.h>
 #include <Sensorik_Team8_PKG/geschwindigkeit.h>
+#include <sensor_msgs/Joy.h>
 ros::NodeHandle nh;
 
 //Tachometer
 #define TACH_I2C_ADDRESS 0x11
 
+int motor = 0;
+int servo = 0;
+
 Servo Servo_Motor;                          // Define Servo for the drive motor.
 Servo Servo_Steer;                          // Define Servo for the steering motor
-
+/*
 void messageCb( const Sensorik_Team8_PKG::joy_axes& move){
   Servo_Motor.write(map(move.motor, 100, -100, 180, 0));
   Servo_Steer.write(map(move.linker, -100, 100, 145, 20));
 }
-
-void messageCbc( const Sensorik_Team8_PKG::movecontrol& move){
-  Servo_Motor.write(map(int(100*move.geschwindigkeit), 100, -100, 180, 0));
-  Servo_Steer.write(map(int(100*move.lenkung), -100, 100, 145, 20));
+*/
+void messageCb( const sensor_msgs::Joy& move){
+  
+  Servo_Motor.write(map(int(move.axes[1]*100), 100, -100, 180, 0));
+  Servo_Steer.write(map(int(move.axes[3]*100),-100, 100, 145, 20));
 }
 
-ros::Subscriber<Sensorik_Team8_PKG::joy_axes> sub("/arduino_steuerung", &messageCb );
-ros::Subscriber<Sensorik_Team8_PKG::movecontrol> subc("/movecontrol", &messageCbc );
+
+/*void messageCbc( const Sensorik_Team8_PKG::movecontrol& move){
+  Servo_Motor.write(map(int(100*move.geschwindigkeit), 100, -100, 180, 0));
+  Servo_Steer.write(map(int(100*move.lenkung), -100, 100, 145, 20));
+}*/
+
+//ros::Subscriber<Sensorik_Team8_PKG::joy_axes> sub("/arduino_steuerung", &messageCb );
+//ros::Subscriber<Sensorik_Team8_PKG::movecontrol> subc("/movecontrol", &messageCbc );
 Sensorik_Team8_PKG::geschwindigkeit g;
+ros::Subscriber<sensor_msgs::Joy> sub("/joy", &messageCb );
 ros::Publisher gundm("/AutoGeschwindigkeit", &g);
 
 void setup() 
@@ -38,7 +50,7 @@ void setup()
   Servo_Steer.write(90);                    // Initialise servo at midpoint with 90 degrees
   nh.initNode();
   nh.subscribe(sub);
-  nh.subscribe(subc);
+  //nh.subscribe(subc);
   nh.advertise(gundm);
 }
 
@@ -49,7 +61,7 @@ void loop()
     for (int i = 0; i < 4; i++) {
     temp |= ((unsigned char)Wire.read() << (i * 8)); // respond with message of 4 bytes
     }
-    g.Geschwindigkeit = (double)temp / 13107.0;
+    g.Geschwindigkeit = temp;
     gundm.publish(&g);
     nh.spinOnce();
 }

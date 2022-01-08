@@ -16,3 +16,6 @@ pub = rospy.Publisher('/arduino_steuerung', joy_axes, queue_size=30)
 rospy.Subscriber("/joy", Joy, callback)
 
 rospy.spin()
+
+
+/ 13107.0

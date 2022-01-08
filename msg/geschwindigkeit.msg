@@ -1,2 +1,1 @@
 float32 Geschwindigkeit
-float32 messrate
