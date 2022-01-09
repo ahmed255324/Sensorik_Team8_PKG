@@ -2,6 +2,7 @@
 
 from math import pi
 import cv2
+from numpy.core.fromnumeric import shape
 from pyzbar.pyzbar import decode
 import numpy as np
 import rospy
@@ -136,7 +137,8 @@ while(not rospy.is_shutdown()):
 		M1 = tf[0:3, 0:3]
 		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
 		winkl = eulerW[2].item(0)
-		print(type(winkl))
+		winkl = winkl.
+		print(type(winkl), shape(winkl))
 		print(type(mittelwert))
 		#mittelwertw = (mittelwertw + winkl)
 		#pose_a.Z = float(mittelwert/teiler) * (180/pi)
