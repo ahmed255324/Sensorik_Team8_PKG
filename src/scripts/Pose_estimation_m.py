@@ -136,12 +136,8 @@ while(not rospy.is_shutdown()):
 		pose_a.Y = tf[1][3]
 		M1 = tf[0:3, 0:3]
 		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
-		winkl = eulerW[2].item(0)
-		#winkl = winkl.
-		#print(type(winkl), shape(winkl))
-		print(type(mittelwert))
-		#mittelwertw = (mittelwertw + winkl)
-		#pose_a.Z = float(mittelwert/teiler) * (180/pi)
+		mittelwertw = (mittelwertw + eulerW[2].item(0))
+		pose_a.Z = float(mittelwertw/teiler) * (180/pi)
 
 		# Quaternion
 		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
