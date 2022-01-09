@@ -138,7 +138,7 @@ while(not rospy.is_shutdown()):
 		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
 		winkl = eulerW[2].item(0)
 		#winkl = winkl.
-		print(type(winkl), shape(winkl))
+		#print(type(winkl), shape(winkl))
 		print(type(mittelwert))
 		#mittelwertw = (mittelwertw + winkl)
 		#pose_a.Z = float(mittelwert/teiler) * (180/pi)
