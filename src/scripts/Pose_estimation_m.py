@@ -138,7 +138,7 @@ while(not rospy.is_shutdown()):
 
 		mittelwertw = mittelwertw + eulerW[2]*(180/pi)
 
-		pose_a.Z = mittelwert/teiler
+		pose_a.Z = float(mittelwert/teiler)
 		# Quaternion
 		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
 			r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
