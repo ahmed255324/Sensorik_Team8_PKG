@@ -127,7 +127,7 @@ while(not rospy.is_shutdown()):
 	if(code1 or code2):
 		mittelwert = tf[0:3, 3:4] + mittelwert
 		teiler = teiler + 1	
-		tf[0:2, 3:4] = mittelwert / teiler
+		tf[0:3, 3:4] = mittelwert / teiler
 		pose_o.pose.position.x = tf[0][3] 
 		pose_o.pose.position.y = tf[1][3]
 		pose_o.pose.position.z = 0
