@@ -137,7 +137,7 @@ while(not rospy.is_shutdown()):
 		M1 = tf[0:3, 0:3]
 		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
 		winkl = eulerW[2].item(0)
-		winkl = winkl.
+		#winkl = winkl.
 		print(type(winkl), shape(winkl))
 		print(type(mittelwert))
 		#mittelwertw = (mittelwertw + winkl)
