@@ -124,7 +124,7 @@ while(not rospy.is_shutdown()):
 			#tf = tf_3
 	
 	if(code1 or code2):
-		mittelwert = tf[0:3, 3:4] + mittelwert
+		mittelwert[0:2, 0] = tf[0:2, 3:4] + mittelwert[0:2]
 		teiler = teiler + 1	
 		tf[0:3, 3:4] = mittelwert / teiler
 		pose_o.pose.position.x = tf[0][3] 
@@ -133,8 +133,10 @@ while(not rospy.is_shutdown()):
 		pose_a.X = tf[0][3]
 		pose_a.Y = tf[1][3]
 		M1 = tf[0:3, 0:3]
-		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)			
-		pose_a.Z = eulerW[2]*(180/pi)
+		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
+		mittelwert[2] = mittelwert[2] + eulerW[2]*(180/pi)
+
+		pose_a.Z = mittelwert[2]/teiler
 		# Quaternion
 		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
 			r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
