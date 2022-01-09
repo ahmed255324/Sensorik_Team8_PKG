@@ -2,7 +2,6 @@
 
 from math import pi
 import cv2
-from numpy.core.arrayprint import FloatFormat
 from pyzbar.pyzbar import decode
 import numpy as np
 import rospy
@@ -137,9 +136,8 @@ while(not rospy.is_shutdown()):
 		M1 = tf[0:3, 0:3]
 		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)
 
-		mittelwertw = eulerW.item(0)
-		print (mittelwert/teiler)#
-		#pose_a.Z = mittelwert/teiler
+		mittelwertw = float (mittelwertw + eulerW[2].item(0))
+		pose_a.Z = mittelwert/teiler
 		# Quaternion
 		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
 			r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
