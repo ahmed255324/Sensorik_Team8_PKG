@@ -3,8 +3,8 @@ import cv2 as cv
 from pyzbar.pyzbar import decode
 
 
-mtx = np.genfromtxt("src/scripts/cameraMatrix.csv", delimiter=',')
-dist = np.genfromtxt('src/scripts/dist.csv', delimiter=',')
+mtx = np.genfromtxt("src/scripts/Pose_etimation/cameraMatrix.csv", delimiter=',')
+dist = np.genfromtxt('src/scripts/Pose_etimation/dist.csv', delimiter=',')
 
 def draw(img, corners, imgpts):
     corner = tuple(corners[0].ravel())
@@ -12,7 +12,6 @@ def draw(img, corners, imgpts):
     img = cv.line(img, corner, tuple(imgpts[1].ravel()), (0,255,0), 10)
     img = cv.line(img, corner, tuple(imgpts[2].ravel()), (0,0,255), 10)
     return img
-
 
 def drawBoxes(img, corners, imgpts):
 
@@ -33,7 +32,7 @@ def drawBoxes(img, corners, imgpts):
 objectPoints = np.random.random((4,3,1))
 imagePoints = np.random.random((4,2,1))
 
-a = 120
+a = 142
 
 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -43,8 +42,8 @@ objectPoints[2] = [[a/2], [-a/2], [0]]
 objectPoints[3] = [[a/2], [a/2], [0]]
 
 axis = np.float32([[3,0,0], [0,3,0], [0,0,-3]]).reshape(-1,3)
-axisBoxes = np.float32([[0,0,0], [0,20,0], [20,20,0], [20,0,0],
-                   [0,0,-20],[0,20,-20],[20,20,-20],[20,0,-20] ])
+axisBoxes = np.float32([[0,0,0], [0,40,0], [40,40,0], [40,0,0],
+                   [0,0,-40],[0,40,-40],[40,40,-40],[40,0,-40] ])
 
 video_capture = cv.VideoCapture(0, cv.CAP_V4L2)
 

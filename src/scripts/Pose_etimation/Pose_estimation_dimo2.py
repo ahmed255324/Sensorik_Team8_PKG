@@ -2,8 +2,8 @@ import numpy as np
 import cv2 as cv
 
 # Load previously saved data
-mtx = np.genfromtxt("src/scripts/cameraMatrix.csv", delimiter=',')
-dist = np.genfromtxt('src/scripts/dist.csv', delimiter=',')
+mtx = np.genfromtxt("src/scripts/Pose_etimation/cameraMatrix.csv", delimiter=',')
+dist = np.genfromtxt('src/scripts/Pose_etimation/dist.csv', delimiter=',')
 
 
 def draw(img, corners, imgpts):

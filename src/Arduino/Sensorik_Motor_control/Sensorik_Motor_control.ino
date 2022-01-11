@@ -3,9 +3,7 @@
 #include <Wire.h>
 #include <Servo.h>                          //Include Servo Library
 #include <ros.h>
-//#include <Sensorik_Team8_PKG/joy_axes.h>
-//#include <Sensorik_Team8_PKG/movecontrol.h>
-#include <Sensorik_Team8_PKG/geschwindigkeit.h>
+//#include <Sensorik_Team8_PKG/geschwindigkeit.h>
 #include <sensor_msgs/Joy.h>
 ros::NodeHandle nh;
 
@@ -29,17 +27,9 @@ void messageCb( const sensor_msgs::Joy& move){
   Servo_Steer.write(map(int(move.axes[3]*100),-100, 100, 145, 20));
 }
 
-
-/*void messageCbc( const Sensorik_Team8_PKG::movecontrol& move){
-  Servo_Motor.write(map(int(100*move.geschwindigkeit), 100, -100, 180, 0));
-  Servo_Steer.write(map(int(100*move.lenkung), -100, 100, 145, 20));
-}*/
-
-//ros::Subscriber<Sensorik_Team8_PKG::joy_axes> sub("/arduino_steuerung", &messageCb );
-//ros::Subscriber<Sensorik_Team8_PKG::movecontrol> subc("/movecontrol", &messageCbc );
-Sensorik_Team8_PKG::geschwindigkeit g;
+//Sensorik_Team8_PKG::geschwindigkeit g;
 ros::Subscriber<sensor_msgs::Joy> sub("/joy", &messageCb );
-ros::Publisher gundm("/AutoGeschwindigkeit", &g);
+//ros::Publisher gundm("/AutoGeschwindigkeit", &g);
 
 void setup() 
 {
@@ -50,18 +40,17 @@ void setup()
   Servo_Steer.write(90);                    // Initialise servo at midpoint with 90 degrees
   nh.initNode();
   nh.subscribe(sub);
-  //nh.subscribe(subc);
-  nh.advertise(gundm);
+  //nh.advertise(gundm);
 }
 
 void loop() 
 {
-    Wire.requestFrom(TACH_I2C_ADDRESS, 4);    // request 4 bytes from slave device
+    /*Wire.requestFrom(TACH_I2C_ADDRESS, 4);    // request 4 bytes from slave device
     unsigned int temp = 0;
     for (int i = 0; i < 4; i++) {
     temp |= ((unsigned char)Wire.read() << (i * 8)); // respond with message of 4 bytes
     }
     g.Geschwindigkeit = temp;
-    gundm.publish(&g);
+    gundm.publish(&g);*/
     nh.spinOnce();
 }
