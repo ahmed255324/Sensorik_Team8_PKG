@@ -22,7 +22,7 @@ pose_o.model_name = "unit_box"
 
 video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
 video_capture2 = cv2.VideoCapture(2, cv2.CAP_V4L2)
-video_capture3 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+video_capture3 = cv2.VideoCapture(3, cv2.CAP_V4L2)
 
 a = 190
 
