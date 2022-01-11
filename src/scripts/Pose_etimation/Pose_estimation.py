@@ -71,8 +71,6 @@ while(not rospy.is_shutdown()):
 		tf_1 = funktionen.TF(rvecs=rvecs_1, tvecs=tvecs_1)
 		tf_1 = np.dot(tabelle.qrcode_tf[int(barcodeData_1)-1], tf_1)
 		tf_1 = np.dot(tf_1, [[-1, 0, 0, 0], [0, 0, 1, 0], [1, 0, 0, 0], [0, 0, 0, 1]])
-		print(1)
-
 
 	#for qrcode2 in code2:
 	#	barcodeData_2 = qrcode2.data.decode("utf-8")
@@ -98,7 +96,6 @@ while(not rospy.is_shutdown()):
 		tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
 		tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 		tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
-		print(3)
 
 	if(code1):
 		#if(code2):
