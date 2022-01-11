@@ -22,7 +22,7 @@ pose_o.model_name = "unit_box"
 
 video_capture1 = cv2.VideoCapture(0)
 video_capture2 = cv2.VideoCapture(2)
-video_capture3 = cv2.VideoCapture(4 )
+#video_capture3 = cv2.VideoCapture(4)
 
 a = 190
 
@@ -54,11 +54,11 @@ while(not rospy.is_shutdown()):
 
 	ret1, frame1 = video_capture1.read()
 	ret2, frame2 = video_capture2.read()
-	ret3, frame3 = video_capture3.read()
+	#ret3, frame3 = video_capture3.read()
 
 	code1 = decode(frame1)
 	code2 = decode(frame2)
-	code3 = decode(frame3)
+	#code3 = decode(frame3)
 	
 	for qrcode1 in code1:
 		barcodeData_1 = qrcode1.data.decode("utf-8")
@@ -87,42 +87,42 @@ while(not rospy.is_shutdown()):
 		tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
 		print(2)
 	
-	for qrcode3 in code3:
-		barcodeData_3 = qrcode3.data.decode("utf-8")
-		points = np.array(code2[0].polygon, np.int32)
-		imagePoints[0] = [[points[0][0]], [points[0][1]]]
-		imagePoints[1] = [[points[1][0]], [points[1][1]]]
-		imagePoints[2] = [[points[2][0]], [points[2][1]]]
-		imagePoints[3] = [[points[3][0]], [points[3][1]]]
-		_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
-		tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
-		tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
-		tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
-		print(3)
+	#for qrcode3 in code3:
+	#	barcodeData_3 = qrcode3.data.decode("utf-8")
+	#	points = np.array(code2[0].polygon, np.int32)
+	#	imagePoints[0] = [[points[0][0]], [points[0][1]]]
+	#	imagePoints[1] = [[points[1][0]], [points[1][1]]]
+	#	imagePoints[2] = [[points[2][0]], [points[2][1]]]
+	#	imagePoints[3] = [[points[3][0]], [points[3][1]]]
+	#	_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
+	#	tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
+	#	tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
+	#	tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
+	#	print(3)
 
 	if(code1):
 		if(code2):
 			tf = (tf_1 + tf_2)/2
-		elif(code3):
-			tf = (tf_1 + tf_3)/2
+	#	elif(code3):
+	#		tf = (tf_1 + tf_3)/2
 		else:
 			tf = tf_1
 
 	elif(code2):
 		if(code1):
 			tf = (tf_1 + tf_2)/2
-		elif(code3):
-			tf = (tf_2 + tf_3)/2
+	#	elif(code3):
+	#		tf = (tf_2 + tf_3)/2
 		else:
 			tf = tf_2
 	
-	elif(code3):
-		if(code1):
-			tf = (tf_1 + tf_3)/2
-		elif(code2):
-			tf = (tf_2 + tf_3)/2
-		else:
-			tf = tf_3
+	#elif(code3):
+	#	if(code1):
+	#		tf = (tf_1 + tf_3)/2
+	#	elif(code2):
+	#		tf = (tf_2 + tf_3)/2
+	#	else:
+	#		tf = tf_3
 
 	if(code1 or code2):	
 		pose_o.pose.position.x = tf[0][3] 
@@ -151,4 +151,4 @@ while(not rospy.is_shutdown()):
 	
 video_capture1.release()
 video_capture2.release()
-video_capture3.release()
+#video_capture3.release()
