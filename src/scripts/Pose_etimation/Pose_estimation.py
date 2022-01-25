@@ -114,5 +114,5 @@ while(not rospy.is_shutdown()):
 	#frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
 	
 video_capture1.release()
-#video_capture2.release()
+video_capture2.release()
 video_capture3.release()
