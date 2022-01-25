@@ -20,9 +20,9 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "unit_box"
 
-video_capture3 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+video_capture3 = cv2.VideoCapture(4, cv2.CAP_V4L2)
 video_capture2 = cv2.VideoCapture(2, cv2.CAP_V4L2)
-video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
 
 a = 190
 
@@ -55,12 +55,14 @@ while(not rospy.is_shutdown()):
 	ret1, frame1 = video_capture1.read()
 	ret2, frame2 = video_capture2.read()
 	ret3, frame3 = video_capture3.read()
+	
 
 	code1 = decode(frame1)
 	code2 = decode(frame2)
 	code3 = decode(frame3)
 	
 	for qrcode1 in code1:
+
 		barcodeData_1 = qrcode1.data.decode("utf-8")
 		points = np.array(code1[0].polygon, np.int32)
 		imagePoints[0] = [[points[0][0]], [points[0][1]]]
