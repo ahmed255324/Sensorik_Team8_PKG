@@ -12,6 +12,8 @@ def callback(data):
     time_1 = datetime.now()
     difference = time_1 - time_0
     mesrate_o.messrate = 1/difference.total_seconds()
+    if(mesrate_o.messrate > 10):
+        mesrate_o.messrate = 10
     pub.publish(mesrate_o)
     time_0 = time_1
 
