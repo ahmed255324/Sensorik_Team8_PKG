@@ -20,15 +20,15 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "unit_box"
 
-video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+video_capture1 = cv2.VideoCapture(2, cv2.CAP_V4L2)
 if not video_capture1.isOpened():
     print("Cannot open camera 1")
     exit()
-video_capture2 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+video_capture2 = cv2.VideoCapture(4, cv2.CAP_V4L2)
 if not video_capture2.isOpened():
     print("Cannot open camera 2")
     exit()
-video_capture3 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+video_capture3 = cv2.VideoCapture(0, cv2.CAP_V4L2)
 if not video_capture3.isOpened():
     print("Cannot open camera 3")
     exit()
@@ -72,8 +72,8 @@ while(not rospy.is_shutdown()):
 		code2 = decode(frame2)
 		for qrcode2 in code2:
 			print('2')
+	
 	ret3, frame3 = video_capture3.read()
-
 	if ret3:
 		code3 = decode(frame3)
 		for qrcode3 in code3:
