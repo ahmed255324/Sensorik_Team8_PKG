@@ -56,9 +56,9 @@ while(not rospy.is_shutdown()):
 	ret2, frame2 = video_capture2.read()
 	ret3, frame3 = video_capture3.read()
 
-	frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-	frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
-	frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
+	#frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+	#frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+	#frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
 
 
 	code1 = decode(frame1)
