@@ -20,7 +20,7 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "unit_box"
 
-video_capture1 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
 if not video_capture1.isOpened():
     print("Cannot open camera 1")
     exit()
@@ -28,7 +28,7 @@ video_capture2 = cv2.VideoCapture(4, cv2.CAP_V4L2)
 if not video_capture2.isOpened():
     print("Cannot open camera 2")
     exit()
-video_capture3 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
 if not video_capture3.isOpened():
     print("Cannot open camera 3")
     exit()
