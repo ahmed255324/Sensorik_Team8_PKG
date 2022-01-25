@@ -93,6 +93,7 @@ while(not rospy.is_shutdown()):
 			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
 			print('2')
 	ret3, frame3 = video_capture3.read()
+
 	if ret3:
 		code3 = decode(frame3)
 		for qrcode3 in code3:
@@ -107,59 +108,10 @@ while(not rospy.is_shutdown()):
 			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
 			print('3')
-			
+
 	#frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
 	#frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
 	#frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
-	
-
-	if(code1):
-		#if(code2):
-		#	tf = (tf_1 + tf_2)/2
-		if(code3):
-			tf = (tf_1 + tf_3)/2
-		else:
-			tf = tf_1
-
-	#elif(code2):
-	#	if(code1):
-	#		tf = (tf_1 + tf_2)/2
-	#	elif(code3):
-	#		tf = (tf_2 + tf_3)/2
-	#	else:
-	#		tf = tf_2
-	elif(code3):
-		if(code1):
-			tf = (tf_1 + tf_3)/2
-		#elif(code2):
-		#	tf = (tf_2 + tf_3)/2
-		else:
-			tf = tf_3
-
-	if(code1 or code3):	
-		pose_o.pose.position.x = tf[0][3] 
-		pose_o.pose.position.y = tf[1][3]
-		pose_o.pose.position.z = 0
-		pose_a.X = tf[0][3]
-		pose_a.Y = tf[1][3]
-		M1 = tf[0:3, 0:3]
-
-		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)			
-		pose_a.Z = eulerW[2]*(180/pi)
-		# Quaternion
-		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
-			r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
-			i = (M1[2,1]-M1[1,2])/(4*r)
-			j = (M1[0,2]-M1[2,0])/(4*r)
-			k = (M1[1,0]-M1[0,1])/(4*r)
-			pose_o.pose.orientation.x = r
-			pose_o.pose.orientation.y = i
-			pose_o.pose.orientation.z = k
-			pose_o.pose.orientation.w = j
-			
-		pub.publish(pose_o)
-		puba.publish(pose_a)
-		pubm.publish(empty_message)
 	
 video_capture1.release()
 #video_capture2.release()
