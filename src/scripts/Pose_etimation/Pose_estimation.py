@@ -26,21 +26,21 @@ frame_height = 540
 
 capture = cv2.CaptureFromCAM(0)
 
-video_capture1 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
 video_capture1.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
 video_capture1.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 video_capture1.set(cv2.CAP_PROP_FPS ,15)
 fps = int(video_capture1.get(5))
 print("fps:", fps)
 
-video_capture2 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+video_capture2 = cv2.VideoCapture(2, cv2.CAP_V4L2)
 video_capture2.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
 video_capture2.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 video_capture2.set(cv2.CAP_PROP_FPS ,15)
 fps = int(video_capture2.get(5))
 print("fps:", fps)
 
-video_capture3 = cv2.VideoCapture(6, cv2.CAP_V4L2)
+video_capture3 = cv2.VideoCapture(4, cv2.CAP_V4L2)
 video_capture3.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
 video_capture3.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 video_capture3.set(cv2.CAP_PROP_FPS ,15)
