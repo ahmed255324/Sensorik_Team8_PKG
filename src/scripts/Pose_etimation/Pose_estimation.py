@@ -24,8 +24,6 @@ pose_o.model_name = "unit_box"
 frame_width = 960
 frame_height = 540
 
-capture = cv2.CaptureFromCAM(0)
-
 video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
 video_capture1.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
 video_capture1.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
