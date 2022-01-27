@@ -74,7 +74,6 @@ tf= np.zeros((4,4))
 while(not rospy.is_shutdown()):
 
 	ret1, frame1 = video_capture1.read()
-	frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
 	if ret1:
 		code1 = decode(frame1)
 		for qrcode1 in code1:		
@@ -91,7 +90,6 @@ while(not rospy.is_shutdown()):
 			print('1')
 
 	ret2, frame2 = video_capture2.read()
-	frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
 	if ret2:
 		code2 = decode(frame2)
 		for qrcode2 in code2:
@@ -108,7 +106,6 @@ while(not rospy.is_shutdown()):
 			print('2')
 	
 	ret3, frame3 = video_capture3.read()
-	frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
 	if ret3:
 		code3 = decode(frame3)
 		for qrcode3 in code3:
