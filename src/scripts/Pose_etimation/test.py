@@ -1,20 +1,23 @@
 #!/usr/bin/env python
-
 import cv2
-import numpy as np
+from _thread import start_new_thread
+import threading
 from pyzbar.pyzbar import decode
 
-video_capture1 = cv2.VideoCapture(0)
+def heron(a):
+    video_capture = cv2.VideoCapture(a, cv2.CAP_V4L2)
+    if not video_capture.isOpened():
+        print("Cannot open camera 2")
+        exit()
+    while True:
+        ret, frame = video_capture.read()
+        if ret:
+            code = decode(frame)
+            for qrcode in code:
+                print(a)
+    return 0
 
-while(True):
-    ret1, image = video_capture1.read()
-    # Pattern points in 2D image coordinates
-    code1 = decode(image)
-    for qrcode1 in code1:
-        print(qrcode1)
-    cv2.imshow("image",image)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-	    break
+camera1 = threading.Thread(target=heron, args=(0,))
 
-video_capture1.release()
-cv2.destroyAllWindows()
+camera1.start()
+c = print("Eingabe.")
