@@ -1,38 +1,44 @@
 #!/usr/bin/env python
-import cv2
-from _thread import start_new_thread
-import threading
+
+import cv2 
 from pyzbar.pyzbar import decode
+from sympy import true
+import cv
 
-from picamera.array import PiRGBArray
-from picamera import PiCamera
 
-# initialize the camera and grab a reference to the raw camera capture
-camera = PiCamera()
-rawCapture = PiRGBArray(camera)
-# allow the camera to warmup
-time.sleep(0.1)
-# grab an image from the camera
-camera.capture(rawCapture, format="bgr")
-image = rawCapture.array
-# display the image on screen and wait for a keypress
-cv2.imshow("Image", image)
-cv2.waitKey(0)
+video_capture1 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+fps = int(video_capture1.get(5))
+print("fps:", fps)
 
-def heron(a):
-    video_capture = cv2.VideoCapture(a, cv2.CAP_V4L2)
-    if not video_capture.isOpened():
-        print("Cannot open camera 2")
-        exit()
-    while True:
-        ret, frame = video_capture.read()
-        if ret:
-            code = decode(frame)
-            for qrcode in code:
-                print(a)
-    return 0
+video_capture2 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+fps = int(video_capture2.get(5))
+print("fps:", fps)
 
-camera1 = threading.Thread(target=heron, args=(0,))
+video_capture3 = cv2.VideoCapture(6, cv2.CAP_V4L2)
+fps = int(video_capture3.get(5))
+print("fps:", fps)
 
-camera1.start()
-c = print("Eingabe.")
+while(true):
+
+	ret1, frame1 = video_capture1.read()
+	if ret1:
+		code1 = decode(frame1)
+		for qrcode1 in code1:
+			print('1')
+
+	ret2, frame2 = video_capture2.read()
+	if ret2:
+		code2 = decode(frame2)
+		for qrcode2 in code2:
+			print('2')
+
+	ret3, frame3 = video_capture3.read()
+	if ret3:
+		code3 = decode(frame3)
+		for qrcode3 in code3:
+			print('3')
+
+	
+video_capture1.release()
+video_capture2.release()
+video_capture3.release()
