@@ -20,16 +20,27 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "unit_box"
 
-video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
-video_capture1.release()
-video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
-video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
-video_capture2.release()
-video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
-video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
-video_capture3.release()
-video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+frame_width = 680
+frame_height = 480
 
+
+video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+video_capture1.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
+video_capture1.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
+video_capture1.set(cv2.CAP_PROP_FPS ,2)
+video_capture1.set(cv2.CAP_PROP_CONVERT_RGB, False)
+
+video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+video_capture2.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
+video_capture2.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
+video_capture2.set(cv2.CAP_PROP_FPS ,2)
+video_capture2.set(cv2.CAP_PROP_CONVERT_RGB, False)
+
+video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+video_capture3.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
+video_capture3.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
+video_capture3.set(cv2.CAP_PROP_FPS ,2)
+video_capture3.set(cv2.CAP_PROP_CONVERT_RGB, False)
 
 a = 190
 
