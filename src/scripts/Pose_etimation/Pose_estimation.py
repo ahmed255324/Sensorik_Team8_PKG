@@ -22,17 +22,20 @@ empty_message = Empty()
 pose_o.model_name = "unit_box"
 
 def heron(a):
-    video_capture = cv2.VideoCapture(a, cv2.CAP_V4L2)
-    if not video_capture.isOpened():
-        print("Cannot open camera 2")
-        exit()
-    while True:
-        ret, frame = video_capture.read()
-        if ret:
-            code = decode(frame)
-            for qrcode in code:
-                print('0')
-    return 0
+	video_capture = cv2.VideoCapture(a, cv2.CAP_V4L2)
+	video_capture.release()
+	video_capture = cv2.VideoCapture(a, cv2.CAP_V4L2)
+
+	if not video_capture.isOpened():
+		print("Cannot open camera 2")
+		exit()
+	while True:
+		ret, frame = video_capture.read()
+		if ret:
+			code = decode(frame)
+			for qrcode in code:
+				print('0')
+	return 0
 
 camera1 = threading.Thread(target=heron, args=(4,))
 camera2 = threading.Thread(target=heron, args=(0,))
