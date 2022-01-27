@@ -2,7 +2,6 @@
 
 from math import pi
 import cv2 
-import cv
 from pyzbar.pyzbar import decode
 import numpy as np
 import rospy
