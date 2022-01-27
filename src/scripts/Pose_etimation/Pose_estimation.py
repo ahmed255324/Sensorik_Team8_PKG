@@ -25,16 +25,13 @@ def heron(a):
 	video_capture = cv2.VideoCapture(a, cv2.CAP_V4L2)
 	video_capture.release()
 	video_capture = cv2.VideoCapture(a, cv2.CAP_V4L2)
-
-	if not video_capture.isOpened():
-		print("Cannot open camera 2")
-		exit()
-	while True:
+	while not rospy.is_shutdown():
 		ret, frame = video_capture.read()
 		if ret:
 			code = decode(frame)
 			for qrcode in code:
 				print('0')
+		video_capture.release()
 	return 0
 
 camera1 = threading.Thread(target=heron, args=(4,))
