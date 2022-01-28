@@ -78,7 +78,7 @@ while(not rospy.is_shutdown()):
 			tf = (tf_1 + tf_2)/2
 		else:
 			tf = tf_1
-		
+	
 	elif(code2):
 		if(code1):
 			tf = (tf_1 + tf_2)/2
