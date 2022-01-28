@@ -4,7 +4,6 @@ from math import pi
 import cv2 
 from pyzbar.pyzbar import decode
 import numpy as np
-from sympy import true
 import rospy
 from gazebo_msgs.msg import ModelState
 from Sensorik_Team8_PKG.msg import auswertungsmessage
