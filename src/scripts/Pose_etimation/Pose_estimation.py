@@ -120,4 +120,3 @@ while(not rospy.is_shutdown()):
 
 video_capture1.release()
 video_capture2.release()
-video_capture3.release()
