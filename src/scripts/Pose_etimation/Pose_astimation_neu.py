@@ -36,7 +36,7 @@ dist_1 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/script
 dist_2 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/dist_2.csv', delimiter=',')
 
 objectPoints = np.random.random((4,3,1))
-imagePoints = np.random.random((2,2,1))
+imagePoints = np.random.random((2,1))
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -58,7 +58,7 @@ while(not rospy.is_shutdown()):
 	for qrcode1 in code1:
 		barcodeData_1 = qrcode1.data.decode("utf-8")
 		points = np.array(code1[0].polygon, np.int32)
-		imagePoints[tow] = [[points[0][0]], [points[0][1]]]
+		imagePoints[tow] = [points[0][0], points[0][1]]
 		tow = tow + 1
 	if(tow == 2):
 		x = imagePoints[0] - imagePoints[1]
@@ -70,7 +70,7 @@ while(not rospy.is_shutdown()):
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.int32)
-		imagePoints[tow] = [[points[0][0]], [points[0][1]]]
+		imagePoints[tow] = [points[0][0], points[0][1]]
 		
 	if(code1):
 		if(code2):

@@ -51,7 +51,6 @@ tf_1 = np.zeros((4,4))
 tf_2 = np.zeros((4,4))
 tf= np.zeros((4,4))
 
-tow = 0
 
 while(not rospy.is_shutdown()):
 	ret1, frame1 = video_capture1.read()
