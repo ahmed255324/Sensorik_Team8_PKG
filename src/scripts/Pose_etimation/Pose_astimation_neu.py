@@ -8,8 +8,6 @@ import rospy
 from gazebo_msgs.msg import ModelState
 from Sensorik_Team8_PKG.msg import auswertungsmessage
 from std_msgs.msg import Empty
-import tabelle
-import funktionen
 
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
@@ -36,7 +34,7 @@ dist_1 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/script
 dist_2 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/dist_2.csv', delimiter=',')
 
 objectPoints = np.random.random((4,3,1))
-imagePoints = np.zeros((3,1))
+imagePoints = list(0, 0, 0)
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -71,43 +69,6 @@ while(not rospy.is_shutdown()):
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.int32)
 		imagePoints[tow] = [points[0][0], points[0][1]]
-		
-	if(code1):
-		if(code2):
-			tf = (tf_1 + tf_2)/2
-		else:
-			tf = tf_1
-	
-	elif(code2):
-		if(code1):
-			tf = (tf_1 + tf_2)/2
-		else:
-			tf = tf_2
-
-	if(code1 or code2):	
-		pose_o.pose.position.x = tf[0][3] 
-		pose_o.pose.position.y = tf[1][3]
-		pose_o.pose.position.z = 0
-		pose_a.X = tf[0][3]
-		pose_a.Y = tf[1][3]
-		M1 = tf[0:3, 0:3]
-
-		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)			
-		pose_a.Z = eulerW[2]*(180/pi)
-		# Quaternion
-		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
-			r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
-			i = (M1[2,1]-M1[1,2])/(4*r)
-			j = (M1[0,2]-M1[2,0])/(4*r)
-			k = (M1[1,0]-M1[0,1])/(4*r)
-			pose_o.pose.orientation.x = r
-			pose_o.pose.orientation.y = i
-			pose_o.pose.orientation.z = k
-			pose_o.pose.orientation.w = j
-			
-		pub.publish(pose_o)
-		puba.publish(pose_a)
-		pubm.publish(empty_message)
 
 video_capture1.release()
 video_capture2.release()
