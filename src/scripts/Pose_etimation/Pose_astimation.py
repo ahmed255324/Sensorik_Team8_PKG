@@ -4,6 +4,7 @@ from math import pi
 import cv2 
 from pyzbar.pyzbar import decode
 import numpy as np
+from sympy import true
 import rospy
 from gazebo_msgs.msg import ModelState
 from Sensorik_Team8_PKG.msg import auswertungsmessage
@@ -49,6 +50,8 @@ objectPoints[3] = [[a/2], [a/2], [0]]
 tf_1 = np.zeros((4,4))	
 tf_2 = np.zeros((4,4))
 tf= np.zeros((4,4))
+
+tow = 0
 
 while(not rospy.is_shutdown()):
 	ret1, frame1 = video_capture1.read()
