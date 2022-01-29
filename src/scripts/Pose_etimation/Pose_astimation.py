@@ -39,16 +39,11 @@ cameraMatrix_2 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/sr
 dist_1 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_1/dist_1.csv', delimiter=',')
 dist_2 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/dist_2.csv', delimiter=',')
 
-objectPoints = np.zeros((4,3,1))
 imagePoints = np.zeros((4,2,1))
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-
-objectPoints[0] = [[-a/2], [a/2], [0]]
-objectPoints[1] = [[-a/2], [-a/2], [0]]
-objectPoints[2] = [[a/2], [-a/2], [0]]
-objectPoints[3] = [[a/2], [a/2], [0]]
-
+objectPoints = np.array([[-a/2, a/2, 0], [-a/2, -a/2, 0], [a/2, -a/2, 0], [a/2, a/2, 0]])
+objectPoints = np.reshape(objectPoints, (4,3,1))
 
 tf_1 = np.zeros((4,4))	
 tf_2 = np.zeros((4,4))
