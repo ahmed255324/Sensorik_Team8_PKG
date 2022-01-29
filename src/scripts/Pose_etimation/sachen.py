@@ -11,6 +11,8 @@ objectPoints = np.array([[-a/2, a/2, 0], [-a/2, -a/2, 0], [a/2, -a/2, 0], [a/2, 
 print(np.reshape(objectPoints, (4,3,1)))
 
 imagePoints = np.reshape(points, (4,2,1))
+imagePoints = np.reshape(points, (4,2,1), dtype=np.float32)
+
 print(imagePoints)
 imagePoints[0] = [[points[0][0]], [points[0][1]]]
 imagePoints[1] = [[points[1][0]], [points[1][1]]]
