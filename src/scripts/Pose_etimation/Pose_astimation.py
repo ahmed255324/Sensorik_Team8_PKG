@@ -92,7 +92,7 @@ for i in range(1, 20):
 	if(code1 or code2):	
 		vergleichwert_qd  = vergleichwert_qd + tf[1][3]
 			
-vergleichwert_qd = vergleichwert_qd / 20
+vergleichwert_qd = vergleichwert_qd / 19
 print (vergleichwert_qd)
 while(not rospy.is_shutdown()):
 	ret1, frame1 = video_capture1.read()
@@ -114,6 +114,7 @@ while(not rospy.is_shutdown()):
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.int32)
+
 		imagePoints[0] = [[points[0][0]], [points[0][1]]]
 		imagePoints[1] = [[points[1][0]], [points[1][1]]]
 		imagePoints[2] = [[points[2][0]], [points[2][1]]]
