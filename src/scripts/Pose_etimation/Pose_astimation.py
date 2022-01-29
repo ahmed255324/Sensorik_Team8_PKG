@@ -100,7 +100,7 @@ while(not rospy.is_shutdown()):
 	for qrcode1 in code1:
 		barcodeData_1 = qrcode1.data.decode("utf-8")
 		points = np.array(code1[0].polygon, np.int32)
-		if(points):
+		if(points.all()):
 			imagePoints[0] = [[points[0][0]], [points[0][1]]]
 			imagePoints[1] = [[points[1][0]], [points[1][1]]]
 			imagePoints[2] = [[points[2][0]], [points[2][1]]]
@@ -115,7 +115,7 @@ while(not rospy.is_shutdown()):
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.int32)
-		if(points):
+		if(points.all()):
 			imagePoints[0] = [[points[0][0]], [points[0][1]]]
 			imagePoints[1] = [[points[1][0]], [points[1][1]]]
 			imagePoints[2] = [[points[2][0]], [points[2][1]]]
