@@ -39,8 +39,8 @@ cameraMatrix_2 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/sr
 dist_1 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_1/dist_1.csv', delimiter=',')
 dist_2 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/dist_2.csv', delimiter=',')
 
-objectPoints = np.zeros((4,3,1,))
-imagePoints = np.zeros((4,2,1,))
+objectPoints = np.zeros((4,3,1))
+imagePoints = np.zeros((4,2,1))
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -60,7 +60,7 @@ for i in range(1, 20):
 	for qrcode1 in code1:
 		barcodeData_1 = qrcode1.data.decode("utf-8")
 		points = np.array(code1[0].polygon, np.int32)
-		imagePoints = np.reshape(points, (4,2,1,))
+		imagePoints = np.reshape(points, (4,2,1))
 		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
 		tf_1 = funktionen.TF(rvecs=rvecs_1, tvecs=tvecs_1)
 		tf_1 = np.dot(tabelle.qrcode_tf[int(barcodeData_1)-1], tf_1)
@@ -71,7 +71,7 @@ for i in range(1, 20):
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.int32)
-		imagePoints = np.reshape(points, (4,2,1,))
+		imagePoints = np.reshape(points, (4,2,1))
 		_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 		tf_2 = funktionen.TF(rvecs=rvecs_2, tvecs=tvecs_2)
 		tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
