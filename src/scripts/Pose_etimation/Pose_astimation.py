@@ -61,7 +61,7 @@ while(not rospy.is_shutdown()):
 	code3 = decode(frame3)
 	for qrcode3 in code3:
 		barcodeData_3 = qrcode3.data.decode("utf-8")
-		points = np.array(code3[0].polygon, np.int32)
+		points = np.array(code3[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
 			imagePoints = np.reshape(points, (4,2,1))
 			_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
