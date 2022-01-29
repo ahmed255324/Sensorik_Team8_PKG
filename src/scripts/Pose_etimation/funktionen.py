@@ -1,5 +1,8 @@
+from cmath import pi
+from matplotlib.pyplot import table
 import numpy as np
 import cv2
+import tabelle
 
 # Calculates rotation matrix to euler angles
 # The result is the same as MATLAB except the order
@@ -14,16 +17,35 @@ def TF(rvecs, tvecs):
 	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
 	return tf
 
-def eulerAnglesToRotationMatrix(R):
-    r, _ = cv2.Rodrigues(R)
-    return np.array([r[0], r[1], r[2]])
+def Angle(win):
+    if(win in tabelle.win_0):
+        return 0
+    elif(win in tabelle.win_30):
+        return pi/6
+    elif(win in tabelle.win_60):
+        return pi/3
+    elif(win in tabelle.win_90):
+        return pi/2
+    elif(win in tabelle.win_120):
+        return 2*pi/3
+    elif(win in tabelle.win_150):
+        return 5*pi/6
+    elif(win in tabelle.win_180):
+        return pi
+    elif(win in tabelle.win__30):
+        return -pi/6
+    elif(win in tabelle.win__60):
+        return -pi/3
+    elif(win in tabelle.win__90):
+        return -pi/2
+    elif(win in tabelle.win__120):
+        return -2*pi/3
+    elif(win in tabelle.win__150):
+        return -5*pi/6
 
-def isRotationMatrix(R):
-    Rt = np.transpose(R)
-    shouldBeIdentity = np.dot(Rt, R)
-    I = np.identity(3, dtype = R.dtype)
-    n = np.linalg.norm(I - shouldBeIdentity)
-    return n < 1e-3
-
+def get_quaternion_from_euler(yaw):
+    qz = np.sin(yaw/2)
+    qw = np.cos(yaw/2)
+    return qz, qw
 
 
