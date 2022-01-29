@@ -47,63 +47,32 @@ tf_1 = np.zeros((4,4))
 tf_2 = np.zeros((4,4))
 tf	 = np.zeros((4,4))
 
-for i in range(1, 20):
-	ret1, frame1 = video_capture1.read()
-	code1 = decode(frame1)
-	for qrcode1 in code1:
-		barcodeData_1 = qrcode1.data.decode("utf-8")
-		points = np.array(code1[0].polygon, np.float32)
-		imagePoints = np.reshape(points, (4,2,1))
-		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
-		tf_1 = funktionen.TF(rvecs=rvecs_1, tvecs=tvecs_1)
-		tf_1 = np.dot(tabelle.qrcode_tf[int(barcodeData_1)-1], tf_1)
-		tf_1 = np.dot(tf_1, [[-1, 0, 0, 0], [0, 0, 1, 0], [1, 0, 0, 0], [0, 0, 0, 1]])
 
-	ret2, frame2 = video_capture2.read()
-	code2 = decode(frame2)
-	for qrcode2 in code2:
-		barcodeData_2 = qrcode2.data.decode("utf-8")
-		points = np.array(code2[0].polygon, np.float32)
-		imagePoints = np.reshape(points, (4,2,1))
-		_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-		tf_2 = funktionen.TF(rvecs=rvecs_2, tvecs=tvecs_2)
-		tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
-		tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
-		
-	if(code1):
-		tf = tf_1
-		
-	elif(code2):
-		tf = tf_2
-
-	if(code1 or code2):	
-		vergleichwert_qd  = vergleichwert_qd + tf[1][3]
-			
-vergleichwert_qd = vergleichwert_qd / 19
-print (vergleichwert_qd)
 while(not rospy.is_shutdown()):
 	ret1, frame1 = video_capture1.read()
 	code1 = decode(frame1)
 	for qrcode1 in code1:
 		barcodeData_1 = qrcode1.data.decode("utf-8")
 		points = np.array(code1[0].polygon, np.float32)
-		imagePoints = np.reshape(points, (4,2,1))
-		_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
-		tf_1 = funktionen.TF(rvecs=rvecs_1, tvecs=tvecs_1)
-		tf_1 = np.dot(tabelle.qrcode_tf[int(barcodeData_1)-1], tf_1)
-		tf_1 = np.dot(tf_1, [[-1, 0, 0, 0], [0, 0, 1, 0], [1, 0, 0, 0], [0, 0, 0, 1]])
+		if((4,2) == np.shape(points)):
+			imagePoints = np.reshape(points, (4,2,1))
+			_, rvecs_1, tvecs_1 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
+			tf_1 = funktionen.TF(rvecs=rvecs_1, tvecs=tvecs_1)
+			tf_1 = np.dot(tabelle.qrcode_tf[int(barcodeData_1)-1], tf_1)
+			tf_1 = np.dot(tf_1, [[-1, 0, 0, 0], [0, 0, 1, 0], [1, 0, 0, 0], [0, 0, 0, 1]])
 
 	ret2, frame2 = video_capture2.read()
 	code2 = decode(frame2)
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.float32)
-		imagePoints = np.reshape(points, (4,2,1))
-		flag_2, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-		tf_2 = funktionen.TF(rvecs=rvecs_2, tvecs=tvecs_2)
-		tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
-		tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
-		
+		if((4,2) == np.shape(points)):
+			imagePoints = np.reshape(points, (4,2,1))
+			flag_2, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
+			tf_2 = funktionen.TF(rvecs=rvecs_2, tvecs=tvecs_2)
+			tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
+			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
+	
 	if(code1):
 		tf = tf_1
 		
@@ -111,12 +80,6 @@ while(not rospy.is_shutdown()):
 		tf = tf_2
 
 	if(code1 or code2):	
-		print(tf[1][3])
-		if abs(vergleichwert_qd - tf[1][3]) > 0.15:
-			tf[1][3] = vergleichwert_qd
-		else:
-			vergleichwert_qd = tf[1][3]
-
 		pose_o.pose.position.x = tf[0][3] 
 		pose_o.pose.position.y = tf[1][3]
 		pose_o.pose.position.z = 0
