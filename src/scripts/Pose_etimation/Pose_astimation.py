@@ -132,6 +132,7 @@ while(not rospy.is_shutdown()):
 		tf = tf_2
 
 	if(code1 or code2):	
+		print(tf[1][3])
 		if abs(vergleichwert_qd - tf[1][3]) > 0.15:
 			tf[1][3] = vergleichwert_qd
 		else:
