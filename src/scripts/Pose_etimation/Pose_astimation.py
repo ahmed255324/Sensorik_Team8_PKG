@@ -58,7 +58,6 @@ while(not rospy.is_shutdown()):
 			imagePoints = np.reshape(points, (4,2,1))
 			flag_2, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 			if(int(barcodeData_2) > 1 and int(barcodeData_2) < 20):
-
 				x = tabelle.qrcode_tf[int(barcodeData_2)-1][0][3] + tvecs_2[2]
 			else:
 				y = tabelle.qrcode_tf[int(barcodeData_2)-1][1][3] + tvecs_2[2]
@@ -82,6 +81,7 @@ while(not rospy.is_shutdown()):
 	if(code3 or code2):
 		pose_o.pose.position.x = x 
 		pose_o.pose.position.y = y
+		print(x, y)
 		pose_a.X = x
 		pose_a.Y = y
 		angle = funktionen.Angle(win)
@@ -89,7 +89,9 @@ while(not rospy.is_shutdown()):
 		# Quaternion
 		pose_o.pose.orientation.x = 0
 		pose_o.pose.orientation.y = 0
-		#pose_o.pose.orientation.z, pose_o.pose.orientation.w  = funktionen.Angle(angle)	
+		pose_o.pose.orientation.z = np.sin(angle/2) 
+		pose_o.pose.orientation.w  = np.cos(angle/2)
+
 		pub.publish(pose_o)
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
