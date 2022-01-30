@@ -50,7 +50,7 @@ cam_3 = 10
 
 while(not rospy.is_shutdown()):
 	ret3, frame2 = video_capture3.read()
-	code2 = decode(frame3)
+	code2 = decode(frame2)
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.float32)
