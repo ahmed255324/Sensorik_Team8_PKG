@@ -100,6 +100,6 @@ while(not rospy.is_shutdown()):
 		pub.publish(pose_o)
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
-
+	win = 0
 video_capture3.release()
 video_capture2.release()
