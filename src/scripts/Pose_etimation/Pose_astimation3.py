@@ -58,8 +58,8 @@ if len(camlist) == 4:
   
 	# initializing the cam variable with default camera
 	cam_1 = pygame.camera.Camera(camlist[0], (640, 480))
-	cam_2 = pygame.camera.Camera(camlist[1], (640, 480))
-	cam_3 = pygame.camera.Camera(camlist[2], (640, 480))
+	cam_2 = pygame.camera.Camera(camlist[2], (640, 480))
+	cam_3 = pygame.camera.Camera(camlist[4], (640, 480))
 
 	# opening the camera
 	cam_1.start()
