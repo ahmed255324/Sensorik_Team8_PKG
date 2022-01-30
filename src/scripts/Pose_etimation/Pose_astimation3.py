@@ -49,7 +49,7 @@ cam_1 = 1
 cam_2 = 10
 cam_3 = 100
 win = 0
-flag = True
+flag = False
 if(flag):
     pygame.camera.init()
   
