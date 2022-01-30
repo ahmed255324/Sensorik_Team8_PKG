@@ -88,7 +88,7 @@ while(not rospy.is_shutdown()):
 		win = win + barcodeData_3 * cam_3
 
 	if(code3 or code2):
-		pose_o.pose.position.x, pose_a.X = x
+		pose_o.pose.position.x = x
 		pose_o.pose.position.y = y
 		pose_o.pose.position.z = 0.0
 		pose_a.X = x
