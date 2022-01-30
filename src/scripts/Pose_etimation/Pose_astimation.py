@@ -101,9 +101,9 @@ while(not rospy.is_shutdown()):
 		# Quaternion
 		pose_o.pose.orientation.x = 0
 		pose_o.pose.orientation.y = 0
-		z, w = funktionen.Angle(angle)
-		pose_o.pose.orientation.z = z
-		pose_o.pose.orientation.w = w	
+		z = funktionen.Angle(angle)
+		pose_o.pose.orientation.z = z[0]
+		pose_o.pose.orientation.w = z[1]
 		pub.publish(pose_o)
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
