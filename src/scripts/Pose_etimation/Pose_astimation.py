@@ -10,8 +10,6 @@ from Sensorik_Team8_PKG.msg import auswertungsmessage
 from std_msgs.msg import Empty
 import tabelle
 import funktionen
-import pygame
-import pygame.camera
 
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
@@ -22,11 +20,13 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "unit_box"
 
-# initializing  the camera
-pygame.camera.init()
-  
-# make the list of all available cameras
-camlist = pygame.camera.list_cameras()
+video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+fps = int(video_capture2.get(5))
+print("fps:", fps)
+
+video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+fps = int(video_capture3.get(5))
+print("fps:", fps)
 
 a = 190
 
@@ -47,20 +47,8 @@ cam_2 = 1
 cam_3 = 10
 win = 0
 
-# initializing the cam variable with default camera
-cam_2 = pygame.camera.Camera(camlist[0], (640, 480))
-cam_3 = pygame.camera.Camera(camlist[2], (640, 480))
-
-# opening the camera
-cam_2.start()
-cam_3.start()
-
 while(not rospy.is_shutdown()):
-	image = cam_2.get_image()
-	view = pygame.surfarray.array3d(image)
-	view = view.transpose([1, 0, 2])
-	#  convert from rgb to bgr
-	frame2 = cv2.cvtColor(view, cv2.COLOR_RGB2BGR) 
+	ret2, frame2 = video_capture2.read()
 	code2 = decode(frame2)
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
@@ -73,11 +61,7 @@ while(not rospy.is_shutdown()):
 			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
 			win = win + int(barcodeData_2)
 
-	image = cam_3.get_image()
-	view = pygame.surfarray.array3d(image)
-	view = view.transpose([1, 0, 2])
-	#  convert from rgb to bgr
-	frame3 = cv2.cvtColor(view, cv2.COLOR_RGB2BGR) 
+	ret3, frame3 = video_capture3.read()
 	code3 = decode(frame3)
 	for qrcode3 in code3:
 		barcodeData_3 = qrcode3.data.decode("utf-8")
@@ -89,7 +73,6 @@ while(not rospy.is_shutdown()):
 			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
 			win = win + int(barcodeData_3)
-	
 	if(code3 or code2):
 		pose_o.pose.position.x = tf_3[0][3] 
 		pose_o.pose.position.y = tf_2[1][3]
@@ -99,12 +82,13 @@ while(not rospy.is_shutdown()):
 		angle = funktionen.Angle(win)
 		pose_a.Z = angle * (180/pi)
 		# Quaternion
-		pose_o.pose.orientation.x = 0.0
-		pose_o.pose.orientation.y = 0.0
-		z = funktionen.Angle(angle)
-		#pose_o.pose.orientation.z = float(z[0])
-		#pose_o.pose.orientation.w = float(z[1])
+		pose_o.pose.orientation.x = 0
+		pose_o.pose.orientation.y = 0
+		pose_o.pose.orientation.z, pose_o.pose.orientation.w  = funktionen.Angle(angle)	
 		pub.publish(pose_o)
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
 		win = 0
+
+video_capture3.release()
+video_capture2.release()
