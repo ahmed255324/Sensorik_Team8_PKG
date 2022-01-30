@@ -59,8 +59,8 @@ while(not rospy.is_shutdown()):
 		if((4,2) == np.shape(points)):
 			imagePoints = np.reshape(points, (4,2,1))
 			flag_2, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-			if(flag_2):
-				print(tvecs_2)
+			#if(flag_2):
+				#print(tvecs_2)
 		win = win + int(barcodeData_2) * cam_2
 
 
@@ -74,7 +74,7 @@ while(not rospy.is_shutdown()):
 			imagePoints = np.reshape(points, (4,2,1))
 			flag_3, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
 			if(flag_3):
-				#print(tvecs_3)
+				print(tvecs_3)
 				#tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
 				#tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 				#tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
