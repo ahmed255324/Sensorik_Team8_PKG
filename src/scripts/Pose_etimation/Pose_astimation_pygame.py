@@ -27,35 +27,62 @@ pygame.camera.init()
 # make the list of all available cameras
 camlist = pygame.camera.list_cameras()
 
+cam1 = pygame.camera.Camera(camlist[4], (640, 480))
 cam2 = pygame.camera.Camera(camlist[0], (640, 480))
 cam3 = pygame.camera.Camera(camlist[2], (640, 480))
 
+cam1.start()
 cam2.start()
 cam3.start()
 
 a = 190
 
+cameraMatrix_1 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_1/cameraMatrix_1.csv", delimiter=',')
 cameraMatrix_2 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/cameraMatrix_2.csv", delimiter=',')
 cameraMatrix_3 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_3/cameraMatrix_3.csv", delimiter=',')
 
+
+dist_1 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_1/dist_1.csv', delimiter=',')
 dist_2 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/dist_2.csv', delimiter=',')
 dist_3 = np.genfromtxt('/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_3/dist_3.csv', delimiter=',')
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 objectPoints = np.array([[-a/2, a/2, 0], [-a/2, -a/2, 0], [a/2, -a/2, 0], [a/2, a/2, 0]], dtype=np.float32)
 objectPoints = np.reshape(objectPoints, (4,3,1))
-	
+points = np.array((4,2))
+
+tf_1 = np.zeros((4,4))
 tf_2 = np.zeros((4,4))
 tf_3 = np.zeros((4,4))
 
 x = 0.0
 y = 0.0
 
-cam_2 = 1
-cam_3 = 10
+cam_1 = 1
+cam_2 = 10
+cam_3 = 100
 win = 0
 
 while(not rospy.is_shutdown()):
+    image = cam1.get_image()
+    view = pygame.surfarray.array3d(image)
+    view = view.transpose([1, 0, 2])
+    frame1 = cv2.cvtColor(view, cv2.COLOR_RGB2BGR)
+    code1 = decode(frame1)
+    for qrcode1 in code1:
+        barcodeData_1 = int(qrcode1.data.decode("utf-8"))
+        points = np.array(code1[0].polygon, np.float32)
+        if((4,2) == np.shape(points)):
+            _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
+            if tvecs_1 is not None:
+                tf_1[2] = tf_1[2] + 0.1
+                tf_1 = np.dot(tabelle.qrcode_tf[barcodeData_1-1], funktionen.TF(tvecs_1))
+                if(barcodeData_1 >= 1 and barcodeData_1 < 20):
+                    y = tf_1[1][3]
+                else:
+                    x = tf_1[0][3]
+        win = win + barcodeData_1 * cam_1
+
     image = cam2.get_image()
     view = pygame.surfarray.array3d(image)
     view = view.transpose([1, 0, 2])
@@ -65,8 +92,7 @@ while(not rospy.is_shutdown()):
         barcodeData_2 = int(qrcode2.data.decode("utf-8"))
         points = np.array(code2[0].polygon, np.float32)
         if((4,2) == np.shape(points)):
-            imagePoints = np.reshape(points, (4,2,1))
-            _, _, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
+            _, _, tvecs_2 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
             if tvecs_2 is not None:
                 tf_2[2] = tf_2[2] + 0.1
                 tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
@@ -85,9 +111,7 @@ while(not rospy.is_shutdown()):
         barcodeData_3 = int(qrcode3.data.decode("utf-8"))
         points = np.array(code3[0].polygon, np.float32)
         if((4,2) == np.shape(points)):
-            #print(barcodeData_3)
-            imagePoints = np.reshape(points, (4,2,1))
-            _, _, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
+            _, _, tvecs_3 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
             if tvecs_3 is not None:
                 tf_3[2] = tf_3[2] + 0.1
                 tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
