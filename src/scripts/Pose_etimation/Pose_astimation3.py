@@ -53,7 +53,7 @@ tf_2 = np.zeros((4,4))
 tf_3 = np.zeros((4,4))
 tf= np.zeros((4,4))
 
-print(len(camlist) == 4)
+print(len(camlist))
 if len(camlist) == 4:
   
 	# initializing the cam variable with default camera
