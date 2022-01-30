@@ -161,6 +161,9 @@ else:
     video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
     fps = int(video_capture3.get(5))
     print("fps:", fps)
+    code1 = 0
+    code2 = 0
+    code3 = 0
 
     while(not rospy.is_shutdown()):
         rate, frame1 = video_capture1.read()
