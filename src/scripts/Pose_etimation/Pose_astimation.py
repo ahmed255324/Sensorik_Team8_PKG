@@ -40,12 +40,8 @@ criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 objectPoints = np.array([[-a/2, a/2, 0], [-a/2, -a/2, 0], [a/2, -a/2, 0], [a/2, a/2, 0]], dtype=np.float32)
 objectPoints = np.reshape(objectPoints, (4,3,1))
 	
-x = 0.0
-y = 0.0
-win = 0
-
-cam_2 = 1
-cam_3 = 10
+tf_2 = np.zeros((4,4))
+tf_3 = np.zeros((4,4))
 
 
 while(not rospy.is_shutdown()):
@@ -57,13 +53,9 @@ while(not rospy.is_shutdown()):
 		if((4,2) == np.shape(points)):
 			imagePoints = np.reshape(points, (4,2,1))
 			flag_2, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-			if(flag_2):
-				if(int(barcodeData_2) > 1 and int(barcodeData_2) < 20):
-					x = tabelle.qrcode_tf[int(barcodeData_2)-1][0][3] + tvecs_2[2]
-				else:
-					y = tabelle.qrcode_tf[int(barcodeData_2)-1][1][3] + tvecs_2[2]
-
-			win = win + int(barcodeData_2)
+			tf_2 = funktionen.TF(rvecs=rvecs_2, tvecs=tvecs_2)
+			tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
+			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
 
 	ret3, frame3 = video_capture3.read()
 	code3 = decode(frame3)
@@ -72,31 +64,35 @@ while(not rospy.is_shutdown()):
 		points = np.array(code3[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
 			imagePoints = np.reshape(points, (4,2,1))
-			
-			flag_3, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
-			if(flag_3):
-				if(int(barcodeData_3) > 1 and int(barcodeData_3) < 20):
-					y = tabelle.qrcode_tf[int(barcodeData_3)-1][1][3] + tvecs_3[2]
-				else:
-					x = tabelle.qrcode_tf[int(barcodeData_3)-1][0][3] + tvecs_3[2]
-						
-			win = win + int(barcodeData_3)*cam_3
+			_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
+			tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
+			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
+			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
 	if(code3 or code2):
-		pose_o.pose.position.x = x 
-		pose_o.pose.position.y = y
-		pose_a.X = x
-		pose_a.Y = y
-		angle = funktionen.Angle(win)
-		pose_a.Z = angle * (180/pi)
+
+		pose_o.pose.position.x = tf_3[0][3] 
+		pose_o.pose.position.y = tf_2[1][3]
+		pose_o.pose.position.z = 0
+		print(tf_3[0][3], tf_2[1][3])
+		pose_a.X = tf_3[0][3]
+		pose_a.Y = tf_2[1][3]
+		M1 = tf_2[0:3, 0:3]
+		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)			
+		pose_a.Z = eulerW[2]*(180/pi)
 		# Quaternion
-		pose_o.pose.orientation.x = 0
-		pose_o.pose.orientation.y = 0
-		#pose_o.pose.orientation.z, pose_o.pose.orientation.w  = funktionen.Angle(angle)	
+		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
+			r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
+			i = (M1[2,1]-M1[1,2])/(4*r)
+			j = (M1[0,2]-M1[2,0])/(4*r)
+			k = (M1[1,0]-M1[0,1])/(4*r)
+			pose_o.pose.orientation.x = r
+			pose_o.pose.orientation.y = i
+			pose_o.pose.orientation.z = k
+			pose_o.pose.orientation.w = j
+			
 		pub.publish(pose_o)
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
-	
-	win = 0
 
 video_capture3.release()
 video_capture2.release()
