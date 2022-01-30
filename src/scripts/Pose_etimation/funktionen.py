@@ -8,13 +8,14 @@ import tabelle
 # of the euler angles ( x and z are swapped ).
 
 
-def TF(rvecs, tvecs):
+def TF(tvecs):
 	tf = np.zeros((4,4), dtype= float)
-	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs, cv2.CV_64F)[0]) 
-	tf[0:3, 0:3] = rotation_matrix
+	tf[0:3, 0:3] = np.eye(3)
 	tf[3][3] = 1
-	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
+	tf[0:3, 3:4] = tvecs/1000
 	return tf
+
+
 
 def Angle(win):
     if(win in tabelle.win_0):
