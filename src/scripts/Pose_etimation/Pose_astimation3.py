@@ -142,13 +142,13 @@ if(flag):
     cam3.stop()
 
 else:
-    video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
-    video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
-    video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+    #video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+    #video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+    #video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
 
-    video_capture1.release()
-    video_capture3.release()
-    video_capture2.release()
+    #video_capture1.release()
+    #video_capture3.release()
+    #video_capture2.release()
 
     video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
     fps = int(video_capture1.get(5))
@@ -218,19 +218,18 @@ else:
             pose_o.pose.position.x = x
             pose_o.pose.position.y = y
             print(x, y)
-            pose_o.pose.position.z = 0.0
             pose_a.X = x
             pose_a.Y = y
+            angle = funktionen.Angle(win)
+            pose_a.Z = angle * (180/pi)
             pose_o.pose.orientation.x = 0.0
             pose_o.pose.orientation.y = 0.0
-            pose_o.pose.orientation.z = 0.0
-            pose_o.pose.orientation.w = 0.0
-                
+            pose_o.pose.orientation.z = np.sin(angle/2)
+            pose_o.pose.orientation.w = np.cos(angle/2) 
             pub.publish(pose_o)
             puba.publish(pose_a)
             pubm.publish(empty_message)
         win = 0
-
     video_capture1.release()
     video_capture3.release()
     video_capture2.release()
