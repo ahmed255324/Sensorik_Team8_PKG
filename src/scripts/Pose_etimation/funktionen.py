@@ -1,19 +1,17 @@
 from math import pi
 import numpy as np
-import cv2
 import tabelle
 
 # Calculates rotation matrix to euler angles
 # The result is the same as MATLAB except the order
 # of the euler angles ( x and z are swapped ).
-
-
+tf = np.zeros((4,4), dtype= float)
+tf[0:3, 0:3] = np.eye(3)
+tf[3][3] = 1
 def TF(tvecs):
-	tf = np.zeros((4,4), dtype= float)
-	tf[0:3, 0:3] = np.eye(3)
-	tf[3][3] = 1
-	tf[0:3, 3:4] = tvecs/1000
-	return tf
+    global tf
+    tf[0:3, 3:4] = tvecs/1000
+    return tf
 
 
 
