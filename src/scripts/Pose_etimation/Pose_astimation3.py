@@ -153,8 +153,7 @@ else:
     video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
     fps = int(video_capture3.get(5))
     print("fps:", fps)
-    det = cv2.QRCodeDetector()
-
+    
     code1 = 0
     code2 = 0
     code3 = 0
@@ -162,9 +161,10 @@ else:
     while(not rospy.is_shutdown()):
         rate, frame1 = video_capture1.read()
         if(rate):
-            decoded_info, pointsq, _ = det.detectAndDecode(frame1)
-            for qrcode1 in decoded_info, points in pointsq:
-                barcodeData_1 = int(qrcode1)
+            code1 = decode(frame1)
+            for qrcode1 in code1:
+                barcodeData_1 = int(qrcode1.data.decode("utf-8"))
+                points = np.array(code1[0].polygon, np.float32)
                 if((4,2) == np.shape(points)):
                     _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
                     if tvecs_1 is not None:
