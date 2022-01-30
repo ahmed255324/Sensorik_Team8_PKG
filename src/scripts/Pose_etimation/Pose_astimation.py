@@ -64,7 +64,7 @@ while(not rospy.is_shutdown()):
 			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
 			print(tf_2)
 			if(int(barcodeData_2) >= 1 and int(barcodeData_2) < 20):
-				y = tf_2[1][3]
+				y = tf_2[0][3]
 			else:
 				x = tf_2[1][3]
 		win = win + int(barcodeData_2) * cam_2
@@ -76,13 +76,13 @@ while(not rospy.is_shutdown()):
 		barcodeData_3 = qrcode3.data.decode("utf-8")
 		points = np.array(code3[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
-			print(barcodeData_3)
+			#print(barcodeData_3)
 			imagePoints = np.reshape(points, (4,2,1))
 			_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
 			tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
 			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
-			print(tf_3)
+			#print(tf_3)
 			if(int(barcodeData_3) >= 1 and int(barcodeData_3) < 20):
 				x = tf_3[1][3]
 			else:
