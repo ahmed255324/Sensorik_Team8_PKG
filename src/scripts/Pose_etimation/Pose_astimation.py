@@ -49,7 +49,7 @@ cam_3 = 10
 
 
 while(not rospy.is_shutdown()):
-	frame2 = cam_2.get_image()
+	ret2, frame2 = video_capture2.read()
 	code2 = decode(frame2)
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
@@ -62,7 +62,7 @@ while(not rospy.is_shutdown()):
 			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
 			print('2')
 
-	frame3 = cam_3.get_image()
+	ret3, frame3 = video_capture3.read()
 	code3 = decode(frame3)
 	for qrcode3 in code3:
 		barcodeData_3 = qrcode3.data.decode("utf-8")
@@ -77,8 +77,8 @@ while(not rospy.is_shutdown()):
 
 
 	if(code3 or code2):
-		pose_o.pose.position.x = x 
-		pose_o.pose.position.y = y
+		pose_o.pose.position.x = tf_2[2][3]
+		pose_o.pose.position.y = tf_3[2][3]
 		pose_a.X = x
 		pose_a.Y = y
 		angle = funktionen.Angle(win)
