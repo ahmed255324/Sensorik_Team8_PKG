@@ -51,11 +51,13 @@ while(not rospy.is_shutdown()):
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
+			print(barcodeData_2)
 			imagePoints = np.reshape(points, (4,2,1))
 			flag_2, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 			tf_2 = funktionen.TF(rvecs=rvecs_2, tvecs=tvecs_2)
 			tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
 			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
+
 
 	ret3, frame3 = video_capture3.read()
 	code3 = decode(frame3)
@@ -63,11 +65,13 @@ while(not rospy.is_shutdown()):
 		barcodeData_3 = qrcode3.data.decode("utf-8")
 		points = np.array(code3[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
+			print(barcodeData_3)
 			imagePoints = np.reshape(points, (4,2,1))
 			_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
 			tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
 			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
+
 	if(code3 or code2):
 
 		pose_o.pose.position.x = tf_3[0][3] 
