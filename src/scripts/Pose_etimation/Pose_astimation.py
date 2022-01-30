@@ -90,14 +90,14 @@ while(not rospy.is_shutdown()):
 		pose_o.pose.position.x = x
 		pose_o.pose.position.y = y
 		print(x, y)
-		pose_o.pose.position.z = 0.0
 		pose_a.X = x
 		pose_a.Y = y
+		angle = funktionen.Angle(win)
+		pose_a.Z = angle * (180/pi)
 		pose_o.pose.orientation.x = 0.0
 		pose_o.pose.orientation.y = 0.0
-		pose_o.pose.orientation.z = 0.0
-		pose_o.pose.orientation.w = 0.0
-			
+		pose_o.pose.orientation.z = np.sin(angle/2)
+		pose_o.pose.orientation.w = np.cos(angle/2) 
 		pub.publish(pose_o)
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
