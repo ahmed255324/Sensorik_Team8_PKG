@@ -72,7 +72,7 @@ while(not rospy.is_shutdown()):
 
 		pose_o.pose.position.x = tf_3[0][3] 
 		pose_o.pose.position.y = tf_2[1][3]
-		pose_o.pose.position.z = 0
+		pose_o.pose.position.z = 0.0
 		print(tf_3[0][3], tf_2[1][3])
 		pose_a.X = tf_3[0][3]
 		pose_a.Y = tf_2[1][3]
