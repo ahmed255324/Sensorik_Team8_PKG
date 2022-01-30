@@ -159,7 +159,6 @@ else:
     rate = True
     while(not rospy.is_shutdown()):
         rate, frame1 = video_capture1.read()
-        print(rate)
         if(rate):
             code1 = decode(frame1)
             for qrcode1 in code1:
@@ -177,7 +176,6 @@ else:
                 win = win + barcodeData_1 * cam_1
 
         rate, frame2 = video_capture2.read()
-        print(rate)
         if(rate):
             code2 = decode(frame2)
             for qrcode2 in code2:
@@ -195,7 +193,6 @@ else:
                 win = win + barcodeData_2 * cam_2
 
         rate, frame3 = video_capture3.read()
-        print(rate)
         if(rate):
             code3 = decode(frame3)
             for qrcode3 in code3:
@@ -215,7 +212,7 @@ else:
         if(code3 or code2 or code1):
             pose_o.pose.position.x = x
             pose_o.pose.position.y = y
-            #print(x, y)
+            print(x, y)
             pose_a.X = x
             pose_a.Y = y
             angle = funktionen.Angle(win)
