@@ -159,6 +159,7 @@ else:
 
     while(not rospy.is_shutdown()):
         rate, frame1 = video_capture1.read()
+        print(rate)
         if(rate):
             code1 = decode(frame1)
             for qrcode1 in code1:
@@ -176,6 +177,7 @@ else:
                 win = win + barcodeData_1 * cam_1
 
         rate, frame2 = video_capture2.read()
+        print(rate)
         if(rate):
             code2 = decode(frame2)
             for qrcode2 in code2:
@@ -193,6 +195,7 @@ else:
                 win = win + barcodeData_2 * cam_2
 
         rate, frame3 = video_capture3.read()
+        print(rate)
         if(rate):
             code3 = decode(frame3)
             for qrcode3 in code3:
