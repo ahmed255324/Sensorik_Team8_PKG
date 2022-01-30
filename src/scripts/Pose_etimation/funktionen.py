@@ -9,11 +9,12 @@ import tabelle
 
 
 def TF(rvecs, tvecs):
-    tf = np.zeros((4,4), dtype= float)
-    rotation_matrix = np.eye(3, dtype= float)
-    tf[3][3] = 1
-    tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
-    return tf
+	tf = np.zeros((4,4), dtype= float)
+	rotation_matrix = np.transpose(cv2.Rodrigues(rvecs, cv2.CV_64F)[0]) 
+	tf[0:3, 0:3] = rotation_matrix
+	tf[3][3] = 1
+	tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
+	return tf
 
 def Angle(win):
     if(win in tabelle.win_0):
@@ -42,11 +43,11 @@ def Angle(win):
         return -5*pi/6
     else:
         print (win," nicht definiert!!")
-        return 0.0
+        return 0
 
 def get_quaternion_from_euler(yaw):
     qz = np.sin(yaw/2)
     qw = np.cos(yaw/2)
-    return [qz, qw]
+    return qz, qw
 
 

@@ -72,7 +72,7 @@ while(not rospy.is_shutdown()):
 			tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
 			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
-			win = win + int(barcodeData_3)
+			win = win + int(barcodeData_3)*cam_3
 	if(code3 or code2):
 		pose_o.pose.position.x = tf_3[0][3] 
 		pose_o.pose.position.y = tf_2[1][3]
@@ -84,7 +84,7 @@ while(not rospy.is_shutdown()):
 		# Quaternion
 		pose_o.pose.orientation.x = 0
 		pose_o.pose.orientation.y = 0
-		pose_o.pose.orientation.z, pose_o.pose.orientation.w  = funktionen.Angle(angle)	
+		#pose_o.pose.orientation.z, pose_o.pose.orientation.w  = funktionen.Angle(angle)	
 		pub.publish(pose_o)
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
