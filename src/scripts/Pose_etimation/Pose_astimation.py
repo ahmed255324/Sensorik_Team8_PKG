@@ -62,6 +62,7 @@ while(not rospy.is_shutdown()):
 			tf_2 = funktionen.TF(rvecs=rvecs_2, tvecs=tvecs_2)
 			tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
 			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
+			print(tf_2)
 			if(int(barcodeData_2) >= 1 and int(barcodeData_2) < 20):
 				y = tf_2[1][3]
 			else:
@@ -81,6 +82,7 @@ while(not rospy.is_shutdown()):
 			tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
 			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
+			print(tf_3)
 			if(int(barcodeData_3) >= 1 and int(barcodeData_3) < 20):
 				x = tf_3[1][3]
 			else:
@@ -91,8 +93,8 @@ while(not rospy.is_shutdown()):
 		pose_o.pose.position.x = x
 		pose_o.pose.position.y = y
 		pose_o.pose.position.z = 0.0
-		print(x, y)
-		print(tf_3[1][3], tf_2[1][3])
+		#print(x, y)
+		#print(tf_3[1][3], tf_2[1][3])
 		pose_a.X = x
 		pose_a.Y = y
 		pose_o.pose.orientation.x = 0.0
