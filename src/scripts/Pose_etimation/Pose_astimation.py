@@ -75,9 +75,9 @@ while(not rospy.is_shutdown()):
 			_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
 			if(int(barcodeData_3) > 1 and int(barcodeData_3) < 20):
 				print(barcodeData_3)
-				y = tabelle.qrcode_tf[int(barcodeData_3)-1][1][3] + tvecs_2[2]/1000
+				y = tabelle.qrcode_tf[int(barcodeData_3)-1][1][3] + tvecs_3[2]/1000
 			else:
-				x = tabelle.qrcode_tf[int(barcodeData_3)-1][0][3] + tvecs_2[2]/1000
+				x = tabelle.qrcode_tf[int(barcodeData_3)-1][0][3] + tvecs_3[2]/1000
 					
 			win = win + int(barcodeData_3)*cam_3
 	if(code3 or code2):
