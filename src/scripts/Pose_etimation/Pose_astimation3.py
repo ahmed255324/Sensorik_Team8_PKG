@@ -54,7 +54,7 @@ tf_3 = np.zeros((4,4))
 tf= np.zeros((4,4))
 
 print(len(camlist))
-if len(camlist) == 4:
+if camlist:
   
 	# initializing the cam variable with default camera
 	cam_1 = pygame.camera.Camera(camlist[0], (640, 480))
