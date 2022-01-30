@@ -164,7 +164,7 @@ else:
         if(rate):
             decoded_info, pointsq, _ = det.detectAndDecode(frame1)
             for qrcode1 in decoded_info, points in pointsq:
-                barcodeData_1 = int(decoded_info)
+                barcodeData_1 = int(qrcode1)
                 if((4,2) == np.shape(points)):
                     _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
                     if tvecs_1 is not None:
