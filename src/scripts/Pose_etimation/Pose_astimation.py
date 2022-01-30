@@ -61,11 +61,9 @@ while(not rospy.is_shutdown()):
 			_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 			if tvecs_2 is not None:
 				if(int(barcodeData_2) >= 1 and int(barcodeData_2) < 20):
-					print()
 					y = tabelle.qrcode_tf[int(barcodeData_2)-1][1][3] + tvecs_2[2]/1000
-					print(y)
-				#else:
-					#x = tabelle.qrcode_tf[int(barcodeData_2)-1][0][3] + tvecs_2[2]
+				else:
+					x = tabelle.qrcode_tf[int(barcodeData_2)-1][0][3] + tvecs_2[2]/1000
 		win = win + int(barcodeData_2) * cam_2
 
 
