@@ -22,7 +22,7 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "unit_box"
 
-video_capture1 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
 fps = int(video_capture1.get(5))
 print("fps:", fps)
 
