@@ -59,8 +59,8 @@ while(not rospy.is_shutdown()):
 		if((4,2) == np.shape(points)):
 			imagePoints = np.reshape(points, (4,2,1))
 			flag_2, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-			#if(flag_2):
-				#print(tvecs_2)
+			if(flag_2):
+				print(tvecs_2)
 		win = win + int(barcodeData_2) * cam_2
 
 
