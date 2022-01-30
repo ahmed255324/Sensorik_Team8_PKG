@@ -82,7 +82,6 @@ while(not rospy.is_shutdown()):
 			if tvecs_3 is not None:
 				tf_3[2] = tf_3[2] + 0.1
 				tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
-				print(tf_3)
 				if(barcodeData_3 >= 1 and barcodeData_3< 20):
 					x = tf_3[0][3]
 					print('x ', x)
