@@ -1,26 +1,28 @@
-import numpy as np
-from sympy import reshape
+import pygame
+import pygame.camera
+  
+# initializing  the camera
+pygame.camera.init()
+  
+# make the list of all available cameras
+camlist = pygame.camera.list_cameras()
+  
+# if camera is detected or not
 
-imagePoints = np.zeros((4,2,1,))
+print(len(camlist))
+if camlist:
+  
+    # initializing the cam variable with default camera
+    cam_1 = pygame.camera.Camera(camlist[0], (640, 480))
 
-points = np.ones((4,2))
-print(((4,2) == np.shape(points)))
-
-a = 190
-
-objectPoints = np.array([[-a/2, a/2, 0], [-a/2, -a/2, 0], [a/2, -a/2, 0], [a/2, a/2, 0]])
-print(np.reshape(objectPoints, (4,3,1)))
-
-imagePoints = np.reshape(points, (4,2,1))
-
-
-print(imagePoints)
-imagePoints[0] = [[points[0][0]], [points[0][1]]]
-imagePoints[1] = [[points[1][0]], [points[1][1]]]
-imagePoints[2] = [[points[2][0]], [points[2][1]]]
-imagePoints[3] = [[points[3][0]], [points[3][1]]]
-
-
-print(imagePoints)
-
-print(np.random.random((4,2,1)))
+    # opening the camera
+    cam_1.start()
+  
+    # capturing the single image
+    image = cam_1.get_image()
+  
+    # saving the image
+  
+# if camera is not detected the moving to else part
+else:
+    print("No camera on current device")
