@@ -10,6 +10,8 @@ from Sensorik_Team8_PKG.msg import auswertungsmessage
 from std_msgs.msg import Empty
 import tabelle
 import funktionen
+import pygame
+import pygame.camera
 
 rospy.init_node('Pose_estimation', anonymous=True)
 pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
@@ -20,13 +22,11 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "unit_box"
 
-video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
-fps = int(video_capture2.get(5))
-print("fps:", fps)
-
-video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
-fps = int(video_capture3.get(5))
-print("fps:", fps)
+# initializing  the camera
+pygame.camera.init()
+  
+# make the list of all available cameras
+camlist = pygame.camera.list_cameras()
 
 a = 190
 
@@ -47,8 +47,16 @@ cam_2 = 1
 cam_3 = 10
 win = 0
 
+# initializing the cam variable with default camera
+cam_2 = pygame.camera.Camera(camlist[0], (640, 480))
+cam_3 = pygame.camera.Camera(camlist[2], (640, 480))
+
+# opening the camera
+cam_2.start()
+cam_3.start()
+
 while(not rospy.is_shutdown()):
-	ret2, frame2 = video_capture2.read()
+	frame2 = cam_2.get_image()
 	code2 = decode(frame2)
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
@@ -61,7 +69,7 @@ while(not rospy.is_shutdown()):
 			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
 			win = win + int(barcodeData_2)
 
-	ret3, frame3 = video_capture3.read()
+	frame3 = cam_3.get_image()
 	code3 = decode(frame3)
 	for qrcode3 in code3:
 		barcodeData_3 = qrcode3.data.decode("utf-8")
@@ -73,6 +81,7 @@ while(not rospy.is_shutdown()):
 			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
 			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
 			win = win + int(barcodeData_3)
+	
 	if(code3 or code2):
 		pose_o.pose.position.x = tf_3[0][3] 
 		pose_o.pose.position.y = tf_2[1][3]
@@ -89,6 +98,3 @@ while(not rospy.is_shutdown()):
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
 		win = 0
-
-video_capture3.release()
-video_capture2.release()
