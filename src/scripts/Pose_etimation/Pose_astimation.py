@@ -49,8 +49,8 @@ cam_3 = 10
 
 
 while(not rospy.is_shutdown()):
-	frame2 = cam_2.get_image()
-	code2 = decode(frame2)
+	ret3, frame2 = video_capture3.read()
+	code2 = decode(frame3)
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
 		points = np.array(code2[0].polygon, np.float32)
@@ -73,7 +73,6 @@ while(not rospy.is_shutdown()):
 		points = np.array(code3[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
 			imagePoints = np.reshape(points, (4,2,1))
-			
 			flag_3, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
 			if(flag_3):
 				tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
