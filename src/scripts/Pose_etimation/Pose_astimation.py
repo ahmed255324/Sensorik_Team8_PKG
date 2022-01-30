@@ -73,7 +73,7 @@ while(not rospy.is_shutdown()):
 			#print(barcodeData_3)
 			imagePoints = np.reshape(points, (4,2,1))
 			flag_3, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
-			if(flag_2):
+			if(flag_3):
 				#print(tvecs_3)
 				#tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
 				#tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
