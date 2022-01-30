@@ -72,15 +72,16 @@ while(not rospy.is_shutdown()):
 		if((4,2) == np.shape(points)):
 			#print(barcodeData_3)
 			imagePoints = np.reshape(points, (4,2,1))
-			_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
-			print(tvecs_3)
-			#tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
-			#tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
-			#tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
-			if(int(barcodeData_3) >= 1 and int(barcodeData_3) < 20):
-				x = tf_3[1][3]
-			else:
-				y = tf_3[1][3]
+			flag_3, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
+			if(flag_2):
+				print(tvecs_3)
+				#tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
+				#tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
+				#tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
+				if(int(barcodeData_3) >= 1 and int(barcodeData_3) < 20):
+					x = tf_3[1][3]
+				else:
+					y = tf_3[1][3]
 		win = win + int(barcodeData_3) * cam_3
 
 	if(code3 or code2):
