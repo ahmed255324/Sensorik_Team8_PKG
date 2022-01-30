@@ -71,19 +71,19 @@ while(not rospy.is_shutdown()):
 	ret3, frame3 = video_capture3.read()
 	code3 = decode(frame3)
 	for qrcode3 in code3:
-		barcodeData_3 = qrcode3.data.decode("utf-8")
+		barcodeData_3 = int(qrcode3.data.decode("utf-8"))
 		points = np.array(code3[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
 			#print(barcodeData_3)
 			imagePoints = np.reshape(points, (4,2,1))
 			_, _, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
 			if tvecs_3 is not None:
-				if(int(barcodeData_3) >= 1 and int(barcodeData_3) < 20):
+				if(barcodeData_3 >= 1 and barcodeData_3< 20):
 					x = tabelle.qrcode_tf[barcodeData_3-1][0][3] + tvecs_3[2]/1000
 					print('x ', x)
 				else:
 					y = tabelle.qrcode_tf[barcodeData_3-1][1][3] + tvecs_3[2]/1000
-		win = win + int(barcodeData_3) * cam_3
+		win = win + barcodeData_3 * cam_3
 
 	if(code3 or code2):
 		pose_o.pose.position.x = x
