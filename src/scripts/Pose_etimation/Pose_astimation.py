@@ -76,19 +76,10 @@ while(not rospy.is_shutdown()):
 		print(tf_3[0][3], tf_2[1][3])
 		pose_a.X = tf_3[0][3]
 		pose_a.Y = tf_2[1][3]
-		M1 = tf_2[0:3, 0:3]
-		eulerW = funktionen.eulerAnglesToRotationMatrix(M1)			
-		pose_a.Z = eulerW[2]*(180/pi)
-		# Quaternion
-		if((float(1)+M1[0,0]+M1[1,1]+M1[2,2]) > 0 ):
-			r = np.math.sqrt(float(1)+M1[0,0]+M1[1,1]+M1[2,2])*0.5
-			i = (M1[2,1]-M1[1,2])/(4*r)
-			j = (M1[0,2]-M1[2,0])/(4*r)
-			k = (M1[1,0]-M1[0,1])/(4*r)
-			pose_o.pose.orientation.x = r
-			pose_o.pose.orientation.y = i
-			pose_o.pose.orientation.z = k
-			pose_o.pose.orientation.w = j
+		pose_o.pose.orientation.x = 0.0
+		pose_o.pose.orientation.y = 0.0
+		pose_o.pose.orientation.z = 0.0
+		pose_o.pose.orientation.w = 0.0
 			
 		pub.publish(pose_o)
 		puba.publish(pose_a)
