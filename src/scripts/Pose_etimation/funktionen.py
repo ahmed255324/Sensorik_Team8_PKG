@@ -43,11 +43,11 @@ def Angle(win):
         return -5*pi/6
     else:
         print (win," nicht definiert!!")
-        return 0
+        return 0.0
 
 def get_quaternion_from_euler(yaw):
     qz = np.sin(yaw/2)
     qw = np.cos(yaw/2)
-    return qz, qw
+    return [qz, qw]
 
 
