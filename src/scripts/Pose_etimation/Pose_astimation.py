@@ -92,6 +92,7 @@ while(not rospy.is_shutdown()):
 		pose_o.pose.position.y = y
 		pose_o.pose.position.z = 0.0
 		print(x, y)
+		print(tf_3[1][3], tf_2[1][3])
 		pose_a.X = x
 		pose_a.Y = y
 		pose_o.pose.orientation.x = 0.0
