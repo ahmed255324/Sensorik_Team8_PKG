@@ -156,7 +156,7 @@ else:
     code1 = 0
     code2 = 0
     code3 = 0
-
+    rate = True
     while(not rospy.is_shutdown()):
         rate, frame1 = video_capture1.read()
         print(rate)
