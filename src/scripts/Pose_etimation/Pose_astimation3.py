@@ -4,6 +4,7 @@ from math import pi
 import cv2 
 from pyzbar.pyzbar import decode
 import numpy as np
+from sympy import true
 import rospy
 from gazebo_msgs.msg import ModelState
 from Sensorik_Team8_PKG.msg import auswertungsmessage
@@ -21,18 +22,6 @@ pose_o = ModelState()
 pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "unit_box"
-
-video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
-fps = int(video_capture1.get(5))
-print("fps:", fps)
-
-video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
-fps = int(video_capture2.get(5))
-print("fps:", fps)
-
-video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
-fps = int(video_capture3.get(5))
-print("fps:", fps)
 
 a = 190
 
@@ -61,73 +50,176 @@ cam_1 = 1
 cam_2 = 10
 cam_3 = 100
 win = 0
+flag = True
+if(flag):
+    pygame.camera.init()
+  
+    # make the list of all available cameras
+    camlist = pygame.camera.list_cameras()
 
-while(not rospy.is_shutdown()):
-    _, frame1 = video_capture1.read()
-    code1 = decode(frame1)
-    for qrcode1 in code1:
-        barcodeData_1 = int(qrcode1.data.decode("utf-8"))
-        points = np.array(code1[0].polygon, np.float32)
-        if((4,2) == np.shape(points)):
-            _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
-            if tvecs_1 is not None:
-                tf_1[2] = tf_1[2] + 0.1
-                tf_1 = np.dot(tabelle.qrcode_tf[barcodeData_1-1], funktionen.TF(tvecs_1))
-                if(barcodeData_1 >= 1 and barcodeData_1 < 20):
-                    y = tf_1[1][3]
-                else:
-                    x = tf_1[0][3]
-        win = win + barcodeData_1 * cam_1
+    cam1 = pygame.camera.Camera(camlist[4], (640, 480))
+    cam2 = pygame.camera.Camera(camlist[0], (640, 480))
+    cam3 = pygame.camera.Camera(camlist[2], (640, 480))
 
-    _, frame2 = video_capture2.read()
-    code2 = decode(frame2)
-    for qrcode2 in code2:
-        barcodeData_2 = int(qrcode2.data.decode("utf-8"))
-        points = np.array(code2[0].polygon, np.float32)
-        if((4,2) == np.shape(points)):
-            _, _, tvecs_2 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-            if tvecs_2 is not None:
-                tf_2[2] = tf_2[2] + 0.1
-                tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
-                if(barcodeData_2 >= 1 and barcodeData_2 < 20):
-                    y = tf_2[1][3]
-                else:
-                    x = tf_2[0][3]
-        win = win + barcodeData_2 * cam_2
+    cam1.start()
+    cam2.start()
+    cam3.start()
+    while(not rospy.is_shutdown()):
+        image = cam1.get_image()
+        view = pygame.surfarray.array3d(image)
+        view = view.transpose([1, 0, 2])
+        frame1 = cv2.cvtColor(view, cv2.COLOR_RGB2BGR)
+        code1 = decode(frame1)
+        for qrcode1 in code1:
+            barcodeData_1 = int(qrcode1.data.decode("utf-8"))
+            points = np.array(code1[0].polygon, np.float32)
+            if((4,2) == np.shape(points)):
+                _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
+                if tvecs_1 is not None:
+                    tf_1[2] = tf_1[2] + 0.1
+                    tf_1 = np.dot(tabelle.qrcode_tf[barcodeData_1-1], funktionen.TF(tvecs_1))
+                    if(barcodeData_1 >= 1 and barcodeData_1 < 20):
+                        y = tf_1[1][3]
+                    else:
+                        x = tf_1[0][3]
+            win = win + barcodeData_1 * cam_1
 
-    _, frame3 = video_capture3.read()
-    code3 = decode(frame3)
-    for qrcode3 in code3:
-        barcodeData_3 = int(qrcode3.data.decode("utf-8"))
-        points = np.array(code3[0].polygon, np.float32)
-        if((4,2) == np.shape(points)):
-            _, _, tvecs_3 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
-            if tvecs_3 is not None:
-                tf_3[2] = tf_3[2] + 0.1
-                tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
-                if(barcodeData_3 >= 1 and barcodeData_3< 20):
-                    x = tf_3[0][3]
-                else:
-                    y = tf_3[1][3]
-        win = win + barcodeData_3 * cam_3
+        image = cam2.get_image()
+        view = pygame.surfarray.array3d(image)
+        view = view.transpose([1, 0, 2])
+        frame2 = cv2.cvtColor(view, cv2.COLOR_RGB2BGR)
+        code2 = decode(frame2)
+        for qrcode2 in code2:
+            barcodeData_2 = int(qrcode2.data.decode("utf-8"))
+            points = np.array(code2[0].polygon, np.float32)
+            if((4,2) == np.shape(points)):
+                _, _, tvecs_2 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
+                if tvecs_2 is not None:
+                    tf_2[2] = tf_2[2] + 0.1
+                    tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
+                    if(barcodeData_2 >= 1 and barcodeData_2 < 20):
+                        y = tf_2[1][3]
+                    else:
+                        x = tf_2[0][3]
+            win = win + barcodeData_2 * cam_2
+    
+        image = cam3.get_image()
+        view = pygame.surfarray.array3d(image)
+        view = view.transpose([1, 0, 2])
+        frame3 = cv2.cvtColor(view, cv2.COLOR_RGB2BGR)
+        code3 = decode(frame3)
+        for qrcode3 in code3:
+            barcodeData_3 = int(qrcode3.data.decode("utf-8"))
+            points = np.array(code3[0].polygon, np.float32)
+            if((4,2) == np.shape(points)):
+                _, _, tvecs_3 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
+                if tvecs_3 is not None:
+                    tf_3[2] = tf_3[2] + 0.1
+                    tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
+                    if(barcodeData_3 >= 1 and barcodeData_3< 20):
+                        x = tf_3[0][3]
+                    else:
+                        y = tf_3[1][3]
+            win = win + barcodeData_3 * cam_3
 
-    if(code3 or code2):
-        pose_o.pose.position.x = x
-        pose_o.pose.position.y = y
-        print(x, y)
-        pose_o.pose.position.z = 0.0
-        pose_a.X = x
-        pose_a.Y = y
-        pose_o.pose.orientation.x = 0.0
-        pose_o.pose.orientation.y = 0.0
-        pose_o.pose.orientation.z = 0.0
-        pose_o.pose.orientation.w = 0.0
-            
-        pub.publish(pose_o)
-        puba.publish(pose_a)
-        pubm.publish(empty_message)
-    win = 0
+        if(code3 or code2):
+            pose_o.pose.position.x = x
+            pose_o.pose.position.y = y
+            print(x, y)
+            pose_o.pose.position.z = 0.0
+            pose_a.X = x
+            pose_a.Y = y
+            pose_o.pose.orientation.x = 0.0
+            pose_o.pose.orientation.y = 0.0
+            pose_o.pose.orientation.z = 0.0
+            pose_o.pose.orientation.w = 0.0
+                
+            pub.publish(pose_o)
+            puba.publish(pose_a)
+            pubm.publish(empty_message)
+        win = 0
 
-video_capture1.release()
-video_capture3.release()
-video_capture2.release()
+    cam2.stop()
+    cam3.stop()
+
+else:
+    video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+    fps = int(video_capture1.get(5))
+    print("fps:", fps)
+
+    video_capture2 = cv2.VideoCapture(0, cv2.CAP_V4L2)
+    fps = int(video_capture2.get(5))
+    print("fps:", fps)
+
+    video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+    fps = int(video_capture3.get(5))
+    print("fps:", fps)
+    while(not rospy.is_shutdown()):
+        _, frame1 = video_capture1.read()
+        code1 = decode(frame1)
+        for qrcode1 in code1:
+            barcodeData_1 = int(qrcode1.data.decode("utf-8"))
+            points = np.array(code1[0].polygon, np.float32)
+            if((4,2) == np.shape(points)):
+                _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
+                if tvecs_1 is not None:
+                    tf_1[2] = tf_1[2] + 0.1
+                    tf_1 = np.dot(tabelle.qrcode_tf[barcodeData_1-1], funktionen.TF(tvecs_1))
+                    if(barcodeData_1 >= 1 and barcodeData_1 < 20):
+                        y = tf_1[1][3]
+                    else:
+                        x = tf_1[0][3]
+            win = win + barcodeData_1 * cam_1
+
+        _, frame2 = video_capture2.read()
+        code2 = decode(frame2)
+        for qrcode2 in code2:
+            barcodeData_2 = int(qrcode2.data.decode("utf-8"))
+            points = np.array(code2[0].polygon, np.float32)
+            if((4,2) == np.shape(points)):
+                _, _, tvecs_2 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
+                if tvecs_2 is not None:
+                    tf_2[2] = tf_2[2] + 0.1
+                    tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
+                    if(barcodeData_2 >= 1 and barcodeData_2 < 20):
+                        y = tf_2[1][3]
+                    else:
+                        x = tf_2[0][3]
+            win = win + barcodeData_2 * cam_2
+
+        _, frame3 = video_capture3.read()
+        code3 = decode(frame3)
+        for qrcode3 in code3:
+            barcodeData_3 = int(qrcode3.data.decode("utf-8"))
+            points = np.array(code3[0].polygon, np.float32)
+            if((4,2) == np.shape(points)):
+                _, _, tvecs_3 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
+                if tvecs_3 is not None:
+                    tf_3[2] = tf_3[2] + 0.1
+                    tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
+                    if(barcodeData_3 >= 1 and barcodeData_3< 20):
+                        x = tf_3[0][3]
+                    else:
+                        y = tf_3[1][3]
+            win = win + barcodeData_3 * cam_3
+
+        if(code3 or code2):
+            pose_o.pose.position.x = x
+            pose_o.pose.position.y = y
+            print(x, y)
+            pose_o.pose.position.z = 0.0
+            pose_a.X = x
+            pose_a.Y = y
+            pose_o.pose.orientation.x = 0.0
+            pose_o.pose.orientation.y = 0.0
+            pose_o.pose.orientation.z = 0.0
+            pose_o.pose.orientation.w = 0.0
+                
+            pub.publish(pose_o)
+            puba.publish(pose_a)
+            pubm.publish(empty_message)
+        win = 0
+
+    video_capture1.release()
+    video_capture3.release()
+    video_capture2.release()
