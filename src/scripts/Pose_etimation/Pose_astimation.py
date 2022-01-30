@@ -61,10 +61,10 @@ while(not rospy.is_shutdown()):
 			_, _, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
 			if tvecs_2 is not None:
 				if(barcodeData_2 >= 1 and barcodeData_2 < 20):
-					y = tabelle.qrcode_tf[barcodeData_2-1][1][3] + tvecs_2[2]/1000
+					y = tabelle.qrcode_tf[barcodeData_2-1][1][3] + tvecs_2[2]/1000 + 0.1
 					print('y ',y)
 				else:
-					x = tabelle.qrcode_tf[barcodeData_2-1][0][3] + tvecs_2[2]/1000
+					x = tabelle.qrcode_tf[barcodeData_2-1][0][3] + tvecs_2[2]/1000 + 0.1
 		win = win + barcodeData_2 * cam_2
 
 
@@ -79,10 +79,10 @@ while(not rospy.is_shutdown()):
 			_, _, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
 			if tvecs_3 is not None:
 				if(barcodeData_3 >= 1 and barcodeData_3< 20):
-					x = tabelle.qrcode_tf[barcodeData_3-1][0][3] + tvecs_3[2]/1000
+					x = tabelle.qrcode_tf[barcodeData_3-1][0][3] + tvecs_3[2]/1000 + 0.1
 					print('x ', x)
 				else:
-					y = tabelle.qrcode_tf[barcodeData_3-1][1][3] + tvecs_3[2]/1000
+					y = tabelle.qrcode_tf[barcodeData_3-1][1][3] + tvecs_3[2]/1000 + 0.1
 		win = win + barcodeData_3 * cam_3
 
 	if(code3 or code2):
