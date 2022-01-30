@@ -56,11 +56,13 @@ while(not rospy.is_shutdown()):
 		points = np.array(code2[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
 			imagePoints = np.reshape(points, (4,2,1))
-			_, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
-			tf_2 = funktionen.TF(rvecs=rvecs_2, tvecs=tvecs_2)
-			tf_2 = np.dot(tabelle.qrcode_tf[int(barcodeData_2)-1], tf_2)
-			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
-			print('2')
+			rate2, rvecs_2, tvecs_2 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
+			if(rate2):
+				if(int(barcodeData_2) >=1 and int(barcodeData_2) < 20):	
+					x = tabelle.qrcode_tf[int(barcodeData_2)-1][0][3] + tvecs_2[2]
+				else:
+					y = tabelle.qrcode_tf[int(barcodeData_2)-1][1][3] + tvecs_2[2]
+				win = win + int(barcodeData_2)
 
 	ret3, frame3 = video_capture3.read()
 	code3 = decode(frame3)
@@ -69,16 +71,16 @@ while(not rospy.is_shutdown()):
 		points = np.array(code3[0].polygon, np.float32)
 		if((4,2) == np.shape(points)):
 			imagePoints = np.reshape(points, (4,2,1))
-			_, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
-			tf_3 = funktionen.TF(rvecs=rvecs_3, tvecs=tvecs_3)
-			tf_3 = np.dot(tabelle.qrcode_tf[int(barcodeData_3)-1], tf_3)
-			tf_3 = np.dot(tf_3, [[0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, -0.1], [0, 0, 0, 1]])
-			print('3')
-
+			rate3, rvecs_3, tvecs_3 = cv2.solvePnP(objectPoints, imagePoints, cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
+			if(rate3):
+				if(int(barcodeData_3) >=1 and int(barcodeData_3) < 20):	
+					y = tabelle.qrcode_tf[int(barcodeData_3)-1][1][3] + tvecs_3[2]
+				else:
+					x = tabelle.qrcode_tf[int(barcodeData_3)-1][0][3] + tvecs_3[2]
 
 	if(code3 or code2):
-		pose_o.pose.position.x = tf_2[2][3]
-		pose_o.pose.position.y = tf_3[2][3]
+		pose_o.pose.position.x = x
+		pose_o.pose.position.y = y
 		pose_a.X = x
 		pose_a.Y = y
 		angle = funktionen.Angle(win)
