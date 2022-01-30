@@ -10,7 +10,7 @@ import tabelle
 
 def TF(rvecs, tvecs):
     tf = np.zeros((4,4), dtype= float)
-    rotation_matrix = np.eye(3)
+    rotation_matrix = np.eye(3, dtype= float)
     tf[3][3] = 1
     tf[0:3, 3:4] = np.dot(-rotation_matrix, tvecs)/1000
     return tf
