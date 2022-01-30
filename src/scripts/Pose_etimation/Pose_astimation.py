@@ -104,3 +104,4 @@ while(not rospy.is_shutdown()):
 	win = 0
 video_capture3.release()
 video_capture2.release()
+
