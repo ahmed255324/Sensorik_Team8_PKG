@@ -90,6 +90,7 @@ while(not rospy.is_shutdown()):
 	if(code3 or code2):
 		pose_o.pose.position.x = x
 		pose_o.pose.position.y = y
+		print(x, y)
 		pose_o.pose.position.z = 0.0
 		pose_a.X = x
 		pose_a.Y = y
