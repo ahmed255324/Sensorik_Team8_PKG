@@ -64,7 +64,7 @@ while(not rospy.is_shutdown()):
 					y = tabelle.qrcode_tf[int(barcodeData_2)-1][1][3] + tvecs_2[2]
 					print(y)
 				else:
-					x = tabelle.qrcode_tf[int(barcodeData_2)-1][0][3] + tvecs_2[2]
+					#x = tabelle.qrcode_tf[int(barcodeData_2)-1][0][3] + tvecs_2[2]
 		win = win + int(barcodeData_2) * cam_2
 
 
