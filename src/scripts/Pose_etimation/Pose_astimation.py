@@ -78,7 +78,7 @@ while(not rospy.is_shutdown()):
 				y = tabelle.qrcode_tf[int(barcodeData_3)-1][1][3] + tvecs_3[2]/1000
 			else:
 				x = tabelle.qrcode_tf[int(barcodeData_3)-1][0][3] + tvecs_3[2]/1000
-					
+						
 			win = win + int(barcodeData_3)*cam_3
 	if(code3 or code2):
 		pose_o.pose.position.x = x 
