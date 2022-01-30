@@ -67,8 +67,7 @@ while(not rospy.is_shutdown()):
 				else:
 					x = tf_2[0][3]
 		win = win + barcodeData_2 * cam_2
-
-
+ 
 	ret3, frame3 = video_capture3.read()
 	code3 = decode(frame3)
 	for qrcode3 in code3:
