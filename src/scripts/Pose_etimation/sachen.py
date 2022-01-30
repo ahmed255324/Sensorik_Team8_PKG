@@ -38,6 +38,3 @@ if camlist:
 # if camera is not detected the moving to else part
 else:
     print("No camera on current device")
-import tabelle
-
-print(tabelle.qrcode_tf[int(1)-1][0][3])
