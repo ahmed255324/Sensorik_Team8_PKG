@@ -102,8 +102,8 @@ while(not rospy.is_shutdown()):
 		pose_o.pose.orientation.x = 0.0
 		pose_o.pose.orientation.y = 0.0
 		z = funktionen.Angle(angle)
-		pose_o.pose.orientation.z = float(z[0])
-		pose_o.pose.orientation.w = float(z[1])
+		#pose_o.pose.orientation.z = float(z[0])
+		#pose_o.pose.orientation.w = float(z[1])
 		pub.publish(pose_o)
 		puba.publish(pose_a)
 		pubm.publish(empty_message)
