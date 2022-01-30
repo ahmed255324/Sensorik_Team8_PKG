@@ -56,7 +56,11 @@ cam_2.start()
 cam_3.start()
 
 while(not rospy.is_shutdown()):
-	frame2 = cam_2.get_image()
+	image = cam_2.get_image()
+	view = pygame.surfarray.array3d(image)
+	view = view.transpose([1, 0, 2])
+	#  convert from rgb to bgr
+	frame2 = cv2.cvtColor(view, cv2.COLOR_RGB2BGR) 
 	code2 = decode(frame2)
 	for qrcode2 in code2:
 		barcodeData_2 = qrcode2.data.decode("utf-8")
@@ -69,7 +73,11 @@ while(not rospy.is_shutdown()):
 			tf_2 = np.dot(tf_2, [[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
 			win = win + int(barcodeData_2)
 
-	frame3 = cam_3.get_image()
+	image = cam_3.get_image()
+	view = pygame.surfarray.array3d(image)
+	view = view.transpose([1, 0, 2])
+	#  convert from rgb to bgr
+	frame3 = cv2.cvtColor(view, cv2.COLOR_RGB2BGR) 
 	code3 = decode(frame3)
 	for qrcode3 in code3:
 		barcodeData_3 = qrcode3.data.decode("utf-8")

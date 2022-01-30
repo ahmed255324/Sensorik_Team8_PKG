@@ -1,5 +1,6 @@
 import pygame
 import pygame.camera
+import cv2
   
 # initializing  the camera
 pygame.camera.init()
@@ -22,7 +23,18 @@ if camlist:
     image = cam_1.get_image()
   
     # saving the image
-  
+    view = pygame.surfarray.array3d(image)
+
+#  convert from (width, height, channel) to (height, width, channel)
+    view = view.transpose([1, 0, 2])
+
+    #  convert from rgb to bgr
+    img_bgr = cv2.cvtColor(view, cv2.COLOR_RGB2BGR) 
+
+    cv2.imshow("cv image", img_bgr)
+
+    cv2.waitKey(3000)
+    
 # if camera is not detected the moving to else part
 else:
     print("No camera on current device")
