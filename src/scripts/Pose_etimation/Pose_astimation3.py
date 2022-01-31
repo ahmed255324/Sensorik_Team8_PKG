@@ -221,7 +221,7 @@ else:
             print(x, y)
             pose_a.X = x
             pose_a.Y = y
-            if(code3 or code2 or code1):
+            if(code3 and code2 and code1):
                 angle = funktionen.Angle(win)
                 pose_a.Z = angle * (180/pi)
                 pose_o.pose.orientation.x = 0.0
