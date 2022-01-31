@@ -22,6 +22,8 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "bus"
 
+
+
 a = 197
 
 cameraMatrix_1 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_1/cameraMatrix_1.csv", delimiter=',')
@@ -166,6 +168,7 @@ else:
                 barcodeData_1 = int(qrcode1.data.decode("utf-8"))
                 points = np.array(code1[0].polygon, np.float32)
                 if((4,2) == np.shape(points)):
+                    print(1)
                     _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
                     if tvecs_1 is not None:
                         tf_1[2] = tf_1[2] + 0.1
