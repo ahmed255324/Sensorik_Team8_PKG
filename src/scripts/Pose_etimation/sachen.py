@@ -9,7 +9,7 @@ qr = qrcode.QRCode(
     border=0,
 )
 
-for i in range(1, 100):
+for i in range(1, 31):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -32,9 +32,10 @@ images = []
  
 # Build the image list by merging the glob results (a list of files)
 # for each extension. We are taking images from current folder.
-for extension in image_extensions:
-    images.extend(glob.glob(extension))
+
+images.extend(sorted(glob.glob('*.png')))
  
+
 # Create instance of FPDF class
 pdf=FPDF('P','mm','A4')
 # Add new page. Without this you cannot create the document.
@@ -50,11 +51,6 @@ for image in images:
     # Setting image width to half the page and
     # height to 1/4th of the page
     pdf.image(image, x = 2, y = 2 , w=pdf.w/1.02, h=pdf.w/1.02)
- 
-    # Image caption
-    pdf.ln(250.25)
-    pdf.cell(4.0,1.0, str(i))
-    i = i + 1
  
 # output content into a file ('F')
 pdf.output('qr-Cods.pdf','F')
