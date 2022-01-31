@@ -20,7 +20,7 @@ pubm = rospy.Publisher('/Messung', Empty, queue_size=10)
 pose_o = ModelState()
 pose_a = auswertungsmessage()
 empty_message = Empty()
-pose_o.model_name = "unit_box"
+pose_o.model_name = "bus"
 
 a = 190
 
