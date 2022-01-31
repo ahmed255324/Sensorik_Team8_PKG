@@ -142,7 +142,7 @@ if(flag):
     cam3.stop()
 
 else:
-    video_capture1 = cv2.VideoCapture(4, cv2.CAP_V4L2)
+    video_capture1 = cv2.VideoCapture(2, cv2.CAP_V4L2)
     fps = int(video_capture1.get(5))
     print("fps:", fps)
 
@@ -150,7 +150,7 @@ else:
     fps = int(video_capture2.get(5))
     print("fps:", fps)
 
-    video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
+    video_capture3 = cv2.VideoCapture(4, cv2.CAP_V4L2)
     fps = int(video_capture3.get(5))
     print("fps:", fps)
     
