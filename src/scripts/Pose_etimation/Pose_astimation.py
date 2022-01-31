@@ -84,7 +84,6 @@ while(not rospy.is_shutdown()):
 				print('camera', 3)
 				if(barcodeData_3 > 7 and barcodeData_3 < 24):
 					x = tf_3[0][3]
-					print(3)
 				else:
 					y = tf_3[1][3]
 				win = win + barcodeData_3 * cam_3
