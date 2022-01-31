@@ -62,9 +62,9 @@ while(not rospy.is_shutdown()):
 			if tvecs_2 is not None:
 				tf_2[2] = tf_2[2] + 0.1
 				tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
+				print('camera', 2)
 				if(barcodeData_2 > 7 and barcodeData_2 < 24):
 					x = tf_2[0][3]
-					print('camera', 3)
 				else:
 					y = tf_2[1][3]
 				win = win + barcodeData_2 * cam_2
