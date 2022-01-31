@@ -62,12 +62,12 @@ while(not rospy.is_shutdown()):
 			if tvecs_2 is not None:
 				tf_2[2] = tf_2[2] + 0.1
 				tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
-				if(barcodeData_2 >= 1 and barcodeData_2 < 20):
-					y = tf_2[1][3]
+				if(barcodeData_2 > 7 and barcodeData_2 < 24):
+					x = tf_2[0][3]
 					print(2)
 				else:
-					x = tf_2[0][3]
-		win = win + barcodeData_2 * cam_2
+					y = tf_2[1][3]
+				win = win + barcodeData_2 * cam_2
  
 	ret3, frame3 = video_capture3.read()
 	code3 = decode(frame3)
@@ -81,12 +81,12 @@ while(not rospy.is_shutdown()):
 			if tvecs_3 is not None:
 				tf_3[2] = tf_3[2] + 0.1
 				tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
-				if(barcodeData_3 >= 1 and barcodeData_3< 20):
+				if(barcodeData_3 > 7 and barcodeData_3 < 24):
 					x = tf_3[0][3]
 					print(3)
 				else:
 					y = tf_3[1][3]
-		win = win + barcodeData_3 * cam_3
+				win = win + barcodeData_3 * cam_3
 
 	if(code3 or code2):
 		pose_o.pose.position.x = x
