@@ -28,7 +28,7 @@ video_capture3 = cv2.VideoCapture(2, cv2.CAP_V4L2)
 fps = int(video_capture3.get(5))
 print("fps:", fps)
 
-a = 190
+a = 197
 
 cameraMatrix_2 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/cameraMatrix_2.csv", delimiter=',')
 cameraMatrix_3 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_3/cameraMatrix_3.csv", delimiter=',')
