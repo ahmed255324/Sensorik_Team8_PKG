@@ -75,7 +75,7 @@ if(flag):
             if((4,2) == np.shape(points)):
                 _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
                 if tvecs_1 is not None:
-                    tf_1[2] = tf_1[2] + 0.1
+                    tf_1[2] = tf_1[2] 
                     tf_1 = np.dot(tabelle.qrcode_tf[barcodeData_1-1], funktionen.TF(tvecs_1))
                     if(barcodeData_1 >= 1 and barcodeData_1 < 20):
                         y = tf_1[1][3]
@@ -94,7 +94,7 @@ if(flag):
             if((4,2) == np.shape(points)):
                 _, _, tvecs_2 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
                 if tvecs_2 is not None:
-                    tf_2[2] = tf_2[2] + 0.1
+                    tf_2[2] = tf_2[2] 
                     tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
                     if(barcodeData_2 >= 1 and barcodeData_2 < 20):
                         y = tf_2[1][3]
@@ -113,7 +113,7 @@ if(flag):
             if((4,2) == np.shape(points)):
                 _, _, tvecs_3 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
                 if tvecs_3 is not None:
-                    tf_3[2] = tf_3[2] + 0.1
+                    tf_3[2] = tf_3[2] 
                     tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
                     if(barcodeData_3 >= 1 and barcodeData_3< 20):
                         x = tf_3[0][3]
