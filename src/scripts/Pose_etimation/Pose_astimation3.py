@@ -218,10 +218,11 @@ else:
             pose_a.Y = y
             angle = funktionen.Angle(win)
             pose_a.Z = angle * (180/pi)
+            
             pose_o.pose.orientation.x = 0.0
             pose_o.pose.orientation.y = 0.0
-            pose_o.pose.orientation.z = np.sin(angle/2)
-            pose_o.pose.orientation.w = np.cos(angle/2) 
+            pose_o.pose.orientation.z = np.sin((angle+pi/2)/2)
+            pose_o.pose.orientation.w = np.cos((angle+pi/2)/2) 
             pub.publish(pose_o)
             puba.publish(pose_a)
             pubm.publish(empty_message)
