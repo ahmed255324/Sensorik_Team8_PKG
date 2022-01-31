@@ -168,7 +168,7 @@ else:
                 barcodeData_1 = int(qrcode1.data.decode("utf-8"))
                 points = np.array(code1[0].polygon, np.float32)
                 if((4,2) == np.shape(points)):
-                    print(1)
+                    print(1, barcodeData_1)
                     _, _, tvecs_1 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_1, dist_1, flags=cv2.SOLVEPNP_P3P)
                     if tvecs_1 is not None:
                         tf_1[2] = tf_1[2] + 0.1
@@ -188,6 +188,7 @@ else:
                 if((4,2) == np.shape(points)):
                     _, _, tvecs_2 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_2, dist_2, flags=cv2.SOLVEPNP_P3P)
                     if tvecs_2 is not None:
+                        print(2, barcodeData_2)
                         tf_2[2] = tf_2[2] + 0.1
                         tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
                         if(barcodeData_2 > 7 and barcodeData_2 < 24):
@@ -205,6 +206,7 @@ else:
                 if((4,2) == np.shape(points)):
                     _, _, tvecs_3 = cv2.solvePnP(objectPoints, np.reshape(points, (4,2,1)), cameraMatrix_3, dist_3, flags=cv2.SOLVEPNP_P3P)
                     if tvecs_3 is not None:
+                        print(3, barcodeData_3)
                         tf_3[2] = tf_3[2] + 0.1
                         tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
                         if(barcodeData_3 > 7 and barcodeData_3 < 24):
