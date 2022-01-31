@@ -22,7 +22,7 @@ pose_a = auswertungsmessage()
 empty_message = Empty()
 pose_o.model_name = "bus"
 
-a = 190
+a = 197
 
 cameraMatrix_1 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_1/cameraMatrix_1.csv", delimiter=',')
 cameraMatrix_2 = np.genfromtxt("/home/ubuntu/catkin_ws/src/Sensorik_Team8_PKG/src/scripts/Usb_cam_calabration_2/cameraMatrix_2.csv", delimiter=',')
@@ -209,7 +209,7 @@ else:
                         else:
                             y = tf_3[1][3]
                 win = win + barcodeData_3 * cam_3
-                
+
         if(code3 or code2 or code1):
             pose_o.pose.position.x = x
             pose_o.pose.position.y = y
