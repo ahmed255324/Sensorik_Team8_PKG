@@ -173,7 +173,7 @@ else:
                     if tvecs_1 is not None:
                         tf_1[2] = tf_1[2] + 0.1
                         tf_1 = np.dot(tabelle.qrcode_tf[barcodeData_1-1], funktionen.TF(tvecs_1))
-                        if(barcodeData_1 > 7 and barcodeData_1 < 24):
+                        if(barcodeData_1 > 13 and barcodeData_1 < 25):
                             x = tf_2[0][3]
                         else:
                             y = tf_2[1][3]
@@ -191,7 +191,7 @@ else:
                         print(2, barcodeData_2)
                         tf_2[2] = tf_2[2] + 0.1
                         tf_2 = np.dot(tabelle.qrcode_tf[barcodeData_2-1], funktionen.TF(tvecs_2))
-                        if(barcodeData_2 > 7 and barcodeData_2 < 24):
+                        if(barcodeData_2 > 13 and barcodeData_2 < 25):
                             x = tf_2[0][3]
                         else:
                             y = tf_2[1][3]
@@ -209,7 +209,7 @@ else:
                         print(3, barcodeData_3)
                         tf_3[2] = tf_3[2] + 0.1
                         tf_3 = np.dot(tabelle.qrcode_tf[barcodeData_3-1], funktionen.TF(tvecs_3))
-                        if(barcodeData_3 > 7 and barcodeData_3 < 24):
+                        if(barcodeData_3 > 13 and barcodeData_3 < 25):
                             x = tf_3[0][3]
                         else:
                             y = tf_3[1][3]
